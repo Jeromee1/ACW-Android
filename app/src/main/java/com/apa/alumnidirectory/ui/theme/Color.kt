@@ -1,4 +1,4 @@
-package com.jeremy.mobstarterapp.ui.theme
+package com.apa.alumnidirectory.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

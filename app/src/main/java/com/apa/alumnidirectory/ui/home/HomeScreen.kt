@@ -1,6 +1,5 @@
-package com.jeremy.mobstarterapp.ui.home
+package com.apa.alumnidirectory.ui.home
 
-import android.widget.MediaController
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text

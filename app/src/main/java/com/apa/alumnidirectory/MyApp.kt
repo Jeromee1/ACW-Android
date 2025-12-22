@@ -1,4 +1,4 @@
-package com.jeremy.mobstarterapp
+package com.apa.alumnidirectory
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

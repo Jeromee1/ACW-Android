@@ -1,4 +1,4 @@
-package com.jeremy.mobstarterapp
+package com.apa.alumnidirectory
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

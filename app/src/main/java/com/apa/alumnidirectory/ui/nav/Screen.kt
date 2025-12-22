@@ -1,4 +1,4 @@
-package com.jeremy.mobstarterapp.ui.nav
+package com.apa.alumnidirectory.ui.nav
 
 import kotlinx.serialization.Serializable
 

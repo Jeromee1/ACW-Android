@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.jeremy.mobstarterapp"
+    namespace = "com.apa.alumnidirectory"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.jeremy.mobstarterapp"
+        applicationId = "com.apa.alumnidirectory"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -73,14 +73,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation("androidx.compose.material3:material3")
+    implementation ("androidx.compose.material:material-icons-extended")
+
     implementation("androidx.navigation3:navigation3-runtime:1.0.0")
     implementation("androidx.navigation3:navigation3-ui:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
-    implementation("com.google.dagger:hilt-android:2.57.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
-    ksp("com.google.dagger:hilt-compiler:2.57.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
 
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("io.coil-kt.coil3:coil-compose:3.3.0")
+
+    implementation("com.google.dagger:hilt-android:2.57.2")
+    implementation("androidx.hilt:hilt-navigation-compose:1.3.0")
+    ksp("com.google.dagger:hilt-compiler:2.57.2")
 }

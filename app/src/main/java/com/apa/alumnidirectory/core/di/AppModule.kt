@@ -1,4 +1,4 @@
-package com.jeremy.mobstarterapp.core.di
+package com.apa.alumnidirectory.core.di
 
 import dagger.Module
 import dagger.hilt.InstallIn

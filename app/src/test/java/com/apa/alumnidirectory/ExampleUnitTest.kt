@@ -1,4 +1,4 @@
-package com.jeremy.mobstarterapp
+package com.apa.alumnidirectory
 
 import org.junit.Test
 
