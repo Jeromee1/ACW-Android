@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Alumni Directory"
+rootProject.name = "ACW"
 include(":app")
  
