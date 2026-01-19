@@ -1,4 +1,4 @@
-package com.jeremy.acw.data.model.user.requests
+package com.jeremy.acw.data.model.requests
 
 data class LoginReq(
     val email: String = "",

@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeremy.acw.ui.components.core.CustomTopBar
 import com.jeremy.acw.ui.screens.home.HomeScreen
+import com.jeremy.acw.ui.screens.login.LoginScreen
 import com.jeremy.acw.ui.theme.Background
 import com.jeremy.acw.ui.theme.KindaWhite
 
@@ -29,7 +31,7 @@ fun AppNav() {
 
     val showTopBar = when {
         dest == null -> false
-//        dest.hasRoute<Screen.Home>() -> false
+        dest.hasRoute<Screen.Splash>() -> false
         else -> true
     }
 
@@ -58,12 +60,14 @@ fun AppNav() {
 fun Nav(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home,
+        startDestination = Screen.Login,
         enterTransition = { slideInHorizontally { it } },
         exitTransition = { slideOutHorizontally { -it } },
         popEnterTransition = { slideInHorizontally { -it } },
         popExitTransition = { slideOutHorizontally { it } }
     ) {
+//        composable<Screen.Splash> { SplashScreen(navController) }
+        composable<Screen.Login> { LoginScreen(navController) }
         composable<Screen.Home> { HomeScreen(navController) }
     }
 }

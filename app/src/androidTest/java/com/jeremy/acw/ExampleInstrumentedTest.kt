@@ -1,4 +1,4 @@
-package com.apa.alumnidirectory
+package com.jeremy.acw
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

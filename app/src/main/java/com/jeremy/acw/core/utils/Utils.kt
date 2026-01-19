@@ -1,7 +1,7 @@
 package com.jeremy.acw.core.utils
 
-import com.jeremy.acw.data.model.user.forms.UpdateMovieForm
-import com.jeremy.acw.data.model.user.requests.UpdateMovieReq
+import com.jeremy.acw.data.model.forms.UpdateMovieForm
+import com.jeremy.acw.data.model.requests.UpdateMovieReq
 
 fun buildUpdateReq(data: UpdateMovieForm): UpdateMovieReq {
     return UpdateMovieReq(

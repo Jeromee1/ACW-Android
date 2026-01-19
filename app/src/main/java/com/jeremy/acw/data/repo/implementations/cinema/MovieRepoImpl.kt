@@ -3,7 +3,7 @@ package com.jeremy.acw.data.repo.implementations.cinema
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jeremy.acw.core.utils.buildUpdateReq
 import com.jeremy.acw.data.model.cinema.Movie
-import com.jeremy.acw.data.model.user.forms.UpdateMovieForm
+import com.jeremy.acw.data.model.forms.UpdateMovieForm
 import com.jeremy.acw.data.repo.MovieRepo
 import jakarta.inject.Inject
 import kotlinx.coroutines.tasks.await
