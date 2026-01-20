@@ -14,7 +14,7 @@ val BlackTG = Brush.linearGradient(
     colors = listOf(
         Color(109, 40, 217, 100),
         Color(40, 10, 90, 100),
-        BlackT, BlackT, BlackT, BlackT, BlackT
+        BlackT, BlackT, BlackT, BlackT
     ),
     start = Offset(0f, 0f),
     end = Offset(0f, Float.POSITIVE_INFINITY)

@@ -30,6 +30,10 @@ class AppModule {
 
     @Provides
     @Singleton
+    fun providesFirebaseFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Provides
+    @Singleton
     fun providesFirebaseAuthService(firebaseAuth: FirebaseAuth): AuthService {
         return AuthService(firebaseAuth)
     }

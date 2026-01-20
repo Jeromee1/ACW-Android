@@ -3,9 +3,9 @@ package com.jeremy.acw.data.repo.implementations
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jeremy.acw.core.service.AuthService
 import com.jeremy.acw.data.model.user.UserData
-import com.jeremy.acw.data.model.user.forms.EditProfileForm
-import com.jeremy.acw.data.model.user.forms.RegisterForm
-import com.jeremy.acw.data.model.user.requests.LoginReq
+import com.jeremy.acw.data.model.forms.EditProfileForm
+import com.jeremy.acw.data.model.forms.RegisterForm
+import com.jeremy.acw.data.model.requests.LoginReq
 import com.jeremy.acw.data.repo.UserRepo
 import jakarta.inject.Inject
 import kotlinx.coroutines.tasks.await

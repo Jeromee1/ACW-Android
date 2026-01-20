@@ -1,9 +1,9 @@
 package com.jeremy.acw.data.repo
 
-import com.jeremy.acw.data.model.user.forms.RegisterForm
+import com.jeremy.acw.data.model.forms.RegisterForm
 import com.jeremy.acw.data.model.user.UserData
-import com.jeremy.acw.data.model.user.forms.EditProfileForm
-import com.jeremy.acw.data.model.user.requests.LoginReq
+import com.jeremy.acw.data.model.forms.EditProfileForm
+import com.jeremy.acw.data.model.requests.LoginReq
 
 interface UserRepo {
     suspend fun register(user: RegisterForm)

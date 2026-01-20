@@ -5,7 +5,7 @@ import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.data.model.cinema.Theatre
-import com.jeremy.acw.data.model.user.forms.UpdateMovieForm
+import com.jeremy.acw.data.model.forms.UpdateMovieForm
 
 interface MovieRepo {
     suspend fun fetchAllMovies(): List<Movie>
