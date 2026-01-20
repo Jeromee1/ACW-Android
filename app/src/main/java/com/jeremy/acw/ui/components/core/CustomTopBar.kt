@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jeremy.acw.R
 import com.jeremy.acw.ui.nav.Screen
-import com.jeremy.acw.ui.theme.BlackTG
+import com.jeremy.acw.ui.theme.BlackPurpleTG
 import com.jeremy.acw.ui.theme.KindaWhite
 
 @Composable
@@ -32,14 +32,14 @@ fun CustomTopBar(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .background(BlackTG)
+            .padding(bottom = 1.dp)
+            .background(BlackPurpleTG)
             .drawBehind {
-                val strokeWidth = 1.dp.toPx()
                 drawLine(
                     color = KindaWhite,
                     start = Offset(0f, size.height),
                     end = Offset(size.width, size.height),
-                    strokeWidth = strokeWidth
+                    strokeWidth = 1.dp.toPx()
                 )
             }
             .padding(
