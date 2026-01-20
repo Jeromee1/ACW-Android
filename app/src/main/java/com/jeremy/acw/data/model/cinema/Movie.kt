@@ -20,6 +20,7 @@ data class Movie(
         "title" to title,
         "desc" to desc,
         "duration" to duration,
+        "genre" to genre,
         "language" to language,
         "subtitles" to subtitles,
         "ageRating" to ageRating,

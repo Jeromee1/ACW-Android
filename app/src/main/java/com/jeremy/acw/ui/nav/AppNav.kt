@@ -69,7 +69,7 @@ fun AppNav() {
 fun Nav(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Login,
+        startDestination = Screen.Home,
         enterTransition = { slideInHorizontally { it } },
         exitTransition = { slideOutHorizontally { -it } },
         popEnterTransition = { slideInHorizontally { -it } },
