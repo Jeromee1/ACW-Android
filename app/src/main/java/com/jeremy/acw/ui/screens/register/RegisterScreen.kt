@@ -1,4 +1,4 @@
-package com.jeremy.acw.ui.screens.login
+package com.jeremy.acw.ui.screens.register
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,50 +25,65 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.jeremy.acw.data.model.requests.LoginReq
+import com.jeremy.acw.data.model.forms.RegisterForm
 import com.jeremy.acw.data.model.ui.FieldData
 import com.jeremy.acw.ui.components.inputs.CustomTextField
-import com.jeremy.acw.ui.nav.Screen
 import com.jeremy.acw.ui.theme.KindaWhite
 import com.jeremy.acw.ui.theme.Primary
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
+    var fullname by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         viewModel.finish.collect {
-            navController.navigate(Screen.Home)
+            navController.popBackStack()
         }
     }
+
     LaunchedEffect(Unit) {
         viewModel.toast.collect { msg ->
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         }
     }
 
-    Login(
+    Register(
+        fullname,
         email,
         password,
+        passwordConfirm,
+        { fullname = it },
         { email = it },
         { password = it },
-        { navController.navigate(Screen.Register) }
-    ) { viewModel.login(LoginReq(email, password)) }
+        { passwordConfirm = it },
+        { navController.popBackStack() }
+    ) { viewModel.register(RegisterForm(
+        fullname,
+        email,
+        password,
+        passwordConfirm
+    )) }
 }
 
 @Composable
-fun Login(
+fun Register(
+    fullname: String,
     email: String,
     password: String,
+    passwordConfirm: String,
+    onFullnameChange: (String) -> Unit,
     onChangeEmail: (String) -> Unit,
     onPassChange: (String) -> Unit,
-    onRegClicked: () -> Unit,
+    onPassConfirmChange: (String) -> Unit,
+    onLogClicked: () -> Unit,
     onSubmit: () -> Unit
 ) {
     Box(
@@ -79,15 +91,6 @@ fun Login(
             .fillMaxSize()
             .padding(20.dp),
     ) {
-        Icon(
-            Icons.Outlined.Movie,
-            "",
-            tint = KindaWhite,
-            modifier = Modifier
-                .fillMaxSize(0.3f)
-                .align(Alignment.TopCenter)
-                .padding(top = 40.dp)
-            )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -101,9 +104,12 @@ fun Login(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    "Login",
+                    "Register",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
+                )
+                CustomTextField(
+                    FieldData("Fullname", fullname) { onFullnameChange(it) }
                 )
                 CustomTextField(
                     FieldData("Email", email) { onChangeEmail(it) }
@@ -111,16 +117,19 @@ fun Login(
                 CustomTextField(
                     FieldData("Password", password, true) { onPassChange(it) }
                 )
+                CustomTextField(
+                    FieldData("Confirm Password", passwordConfirm, true) { onPassConfirmChange(it) }
+                )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Don't have an account?")
+                    Text("Already have an account?")
                     TextButton(
-                        onClick = { onRegClicked() }
-                    ) { Text("Register", color = Primary, fontSize = 16.sp) }
+                        onClick = { onLogClicked() }
+                    ) { Text("Login", color = Primary, fontSize = 16.sp) }
                 }
             }
         }
@@ -133,6 +142,6 @@ fun Login(
                 .padding(bottom = 40.dp),
             containerColor = Primary,
             contentColor = KindaWhite
-        ) { Text("Login", fontSize = 18.sp) }
+        ) { Text("Register", fontSize = 18.sp) }
     }
 }

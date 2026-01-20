@@ -1,7 +1,9 @@
 package com.jeremy.acw.ui.base
 
+import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jeremy.acw.data.model.forms.RegisterForm
 import com.jeremy.acw.data.model.requests.LoginReq
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,6 +29,36 @@ open class BaseViewModel: ViewModel() {
     fun validateLogin(form: LoginReq): Boolean {
         if (form.email.isBlank() || form.password.isBlank()) {
             emitToast("Fields cannot be blank")
+            return false
+        }
+        return true
+    }
+
+    fun validateRegisterFields(form: RegisterForm): Boolean {
+        form.apply {
+            if(fullname.length < 7) return false
+            if(!validateEmailFormat(email)) return false
+            if(!validatePassword(password, passwordConfirm)) return false
+        }
+        return true
+    }
+
+    fun validateEmailFormat(email: String): Boolean {
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emitToast("Invalid email format")
+            return false
+        }
+        return true
+    }
+
+    fun validatePassword(pass: String, pass2: String): Boolean {
+        if (pass.length < 8) {
+            emitToast("Password must be at least 8 characters")
+            return false
+        }
+
+        if (pass != pass2) {
+            emitToast("Passwords do not match")
             return false
         }
         return true

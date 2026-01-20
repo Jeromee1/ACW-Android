@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jeremy.acw.ui.components.core.CustomTopBar
 import com.jeremy.acw.ui.screens.home.HomeScreen
 import com.jeremy.acw.ui.screens.login.LoginScreen
+import com.jeremy.acw.ui.screens.register.RegisterScreen
 import com.jeremy.acw.ui.theme.Background
 import com.jeremy.acw.ui.theme.KindaWhite
 
@@ -32,6 +33,14 @@ fun AppNav() {
     val showTopBar = when {
         dest == null -> false
         dest.hasRoute<Screen.Splash>() -> false
+        else -> true
+    }
+
+    val showBackBtn = when {
+        dest == null -> false
+        dest.hasRoute<Screen.Login>() ||
+        dest.hasRoute<Screen.Register>() ||
+        dest.hasRoute<Screen.Home>() -> false
         else -> true
     }
 
@@ -48,7 +57,7 @@ fun AppNav() {
             if (showTopBar) {
                 CustomTopBar(
                     navController = navController,
-                    showBackBtn = false
+                    showBackBtn = showBackBtn
                 )
             }
             Nav(navController)
@@ -68,6 +77,7 @@ fun Nav(navController: NavHostController) {
     ) {
 //        composable<Screen.Splash> { SplashScreen(navController) }
         composable<Screen.Login> { LoginScreen(navController) }
+        composable<Screen.Register> { RegisterScreen(navController) }
         composable<Screen.Home> { HomeScreen(navController) }
     }
 }
