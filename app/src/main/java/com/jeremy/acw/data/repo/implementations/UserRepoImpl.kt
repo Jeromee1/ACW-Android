@@ -14,10 +14,7 @@ class UserRepoImpl @Inject constructor(
     private val authService: AuthService,
     firestore: FirebaseFirestore
 ) : UserRepo {
-    private val dbRef = firestore
-        .collection("acw_db")
-        .document("directory")
-        .collection("users")
+    private val dbRef = firestore.collection("users")
 
     override suspend fun register(user: RegisterForm) {
         val uid = authService.register(user.email, user.password)
