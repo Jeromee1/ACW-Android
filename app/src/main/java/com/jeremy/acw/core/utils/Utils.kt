@@ -1,7 +1,10 @@
 package com.jeremy.acw.core.utils
 
+import com.google.firebase.Timestamp
 import com.jeremy.acw.data.model.forms.UpdateMovieForm
 import com.jeremy.acw.data.model.requests.UpdateMovieReq
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 fun buildUpdateReq(data: UpdateMovieForm): UpdateMovieReq {
     return UpdateMovieReq(
@@ -27,4 +30,9 @@ fun timeConverter(timeSeconds: Long): String {
         hours > 0 -> "${hours}h"
         else -> "${minutes}m"
     }
+}
+
+fun timestampFormat(timestamp: Timestamp): String {
+    val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+    return formatter.format(timestamp.toDate())
 }

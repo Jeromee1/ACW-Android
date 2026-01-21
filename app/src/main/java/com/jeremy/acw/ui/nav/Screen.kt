@@ -12,4 +12,6 @@ sealed class Screen {
     object Register: Screen()
     @Serializable
     object Home: Screen()
+    @Serializable
+    data class Details(val movieId: String, val isLoggedIn: Boolean): Screen()
 }

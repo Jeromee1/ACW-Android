@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +27,9 @@ import com.jeremy.acw.ui.theme.KindaWhite
 @Composable
 fun CustomTopBar(
     navController: NavController,
-    showBackBtn: Boolean = true
+    showBackBtn: Boolean = true,
+    showMenu: Boolean = false,
+    onMenuClicked: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -51,12 +54,23 @@ fun CustomTopBar(
     ) {
         if(showBackBtn) {
             Icon(
-                Icons.AutoMirrored.Filled.ArrowBack,
+                Icons.AutoMirrored.Default.ArrowBack,
                 "",
                 modifier = Modifier
                     .size(36.dp)
                     .align(Alignment.CenterStart)
                     .clickable { navController.popBackStack() }
+            )
+        }
+        if(showMenu) {
+            Icon(
+                Icons.Default.Menu,
+                "",
+                modifier = Modifier
+                    .size(36.dp)
+                    .align(Alignment.CenterStart)
+                    .clickable { onMenuClicked() },
+                tint = KindaWhite
             )
         }
         Image(
