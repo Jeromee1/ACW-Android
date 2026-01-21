@@ -13,8 +13,8 @@ data class Screening(
     val price: Double = 0.0
 ) {
     fun toMap(): Map<String, Any> {
-        requireNotNull(startTime) { "startTime must be set" }
-        requireNotNull(endTime) { "endTime must be set" }
+        requireNotNull(startTime) { "Starting time must be set" }
+        requireNotNull(endTime) { "Ending time must be set" }
 
         return mutableMapOf(
             "id" to id,

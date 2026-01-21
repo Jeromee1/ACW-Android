@@ -31,6 +31,7 @@ import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.movie.MovieBannerItem
 import com.jeremy.acw.ui.components.movie.MovieItem
+import com.jeremy.acw.ui.nav.Screen
 import com.jeremy.acw.ui.theme.KindaWhite
 import com.jeremy.acw.ui.theme.Gray
 
@@ -52,8 +53,9 @@ fun HomeScreen(
             moviesShowing,
             moviesSoon,
             user != null,
-            selectedStatus
-        ) { selectedStatus = it }
+            selectedStatus,
+            { selectedStatus = it }
+        ) { navController.navigate(Screen.Details(it, user != null)) }
     }
 }
 
@@ -63,7 +65,8 @@ fun Home(
     moviesSoon: List<Movie>,
     isLoggedIn: Boolean,
     selectedStatus: String,
-    onSelectStatus: (String) -> Unit
+    onSelectStatus: (String) -> Unit,
+    navToDetails: (String) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -76,7 +79,7 @@ fun Home(
             MovieBannerItem(
                 moviesShowing,
                 isLoggedIn,
-                {  }
+                { navToDetails(it) }
             ) {  }
         }
         Column(
@@ -89,7 +92,7 @@ fun Home(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(28.dp, 0.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(18.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 MovieStatus.entries.forEach {
@@ -123,7 +126,7 @@ fun Home(
                                     modifier = Modifier.weight(1f),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    MovieItem(movie) { /* nav to details */ }
+                                    MovieItem(movie) { navToDetails(it) }
                                 }
                             }
                             if (rowItems.size < columns) {

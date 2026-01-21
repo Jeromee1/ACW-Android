@@ -145,7 +145,7 @@ fun MovieBannerItem(
                         }
                         Button(
                             onClick = { if (isLoggedIn) onBuyClicked(movie.id) },
-                            shape = RoundedCornerShape(8.dp),
+                            shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(if (isLoggedIn) Primary else Secondary),
                         ) { Text("BUY NOW") }
                     }
