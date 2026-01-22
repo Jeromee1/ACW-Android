@@ -18,12 +18,12 @@ interface MovieRepo {
 interface TheatreRepo {
     suspend fun fetchAllTheatres(): List<Theatre>
     suspend fun fetchTheatre(id: String): Theatre
-    suspend fun createTheatre(theatre: Theatre)
+    suspend fun createTheatre(theatre: String)
     suspend fun deleteTheatre(id: String)
 }
 
 interface HallRepo {
-    suspend fun fetchAllHalls(): List<Hall>
+    suspend fun fetchAllHalls(theatreId: String): List<Hall>
     suspend fun fetchHall(id: String): Hall
     suspend fun createHall(hall: Hall)
     suspend fun deleteHall(id: String)

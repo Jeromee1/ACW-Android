@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jeremy.acw.ui.components.core.CustomMenu
 import com.jeremy.acw.ui.components.core.CustomTopBar
 import com.jeremy.acw.ui.screens.admin.dashboard.DashboardScreen
+import com.jeremy.acw.ui.screens.admin.halls.HallScreen
 import com.jeremy.acw.ui.screens.admin.theatres.TheatresScreen
 import com.jeremy.acw.ui.screens.details.DetailsScreen
 import com.jeremy.acw.ui.screens.home.HomeScreen
@@ -105,5 +106,6 @@ fun Nav(navController: NavHostController) {
         composable<Screen.Profile> { ProfileScreen(navController) }
         composable<Screen.Dashboard> { DashboardScreen(navController) }
         composable<Screen.Theatres> { TheatresScreen(navController) }
+        composable<Screen.Hall> { HallScreen(navController) }
     }
 }

@@ -2,11 +2,11 @@ package com.jeremy.acw.ui.screens.admin.theatres
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +25,8 @@ import com.jeremy.acw.ui.components.core.CustomButton
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.inputs.CustomTextField
 import com.jeremy.acw.ui.components.theatre.TheatreItem
+import com.jeremy.acw.ui.nav.Screen
+import com.jeremy.acw.ui.theme.KindaWhite
 
 @Composable
 fun TheatresScreen(
@@ -32,20 +34,20 @@ fun TheatresScreen(
     viewModel: TheatresViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val theatres by viewModel.theatres.collectAsStateWithLifecycle()
+    val sortedTheatres by viewModel.sortedTheatres.collectAsStateWithLifecycle()
     var theatre by remember { mutableStateOf("") }
     var search by remember { mutableStateOf("") }
 
     Theatres(
         isLoading,
-        theatres,
+        sortedTheatres,
         theatre,
         { theatre = it },
-        { viewModel.addTheatre(theatre) },
+        { viewModel.addTheatre(theatre); theatre = "" },
         { viewModel.deleteTheatre(it) },
         search,
-        { search = it }
-    ) { /*navController.navigate(Screen.Halls)*/ }
+        { search = it; viewModel.search(search) }
+    ) { navController.navigate(Screen.Hall(it)) }
 }
 
 @Composable
@@ -69,7 +71,11 @@ fun Theatres(
             CustomTextField(FieldData("Theatre", theatre) { onTheatreChanged(it) })
             CustomButton("Add") { onAddClicked() }
         }
-        Spacer(Modifier.height(8.dp))
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = KindaWhite,
+            modifier = Modifier.padding(0.dp, 12.dp)
+        )
         CustomTextField(FieldData("Search", search) { onSearchChanged(it) })
         if(!isLoading) {
             LazyColumn(
