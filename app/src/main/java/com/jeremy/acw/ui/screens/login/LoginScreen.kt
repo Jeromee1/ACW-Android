@@ -47,7 +47,9 @@ fun LoginScreen(
 
     LaunchedEffect(Unit) {
         viewModel.finish.collect {
-            navController.navigate(Screen.Home)
+            navController.navigate(Screen.Home) {
+                popUpTo(Screen.Login) { inclusive = true }
+            }
         }
     }
     LaunchedEffect(Unit) {
