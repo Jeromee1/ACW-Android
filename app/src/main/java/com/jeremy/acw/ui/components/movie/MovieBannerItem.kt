@@ -137,11 +137,20 @@ fun MovieBannerItem(
                                     .size(30.dp)
                                     .clickable { onInfoClicked(movie.id) }
                             )
-                            Text(
-                                "${movie.genre.firstOrNull()} ${timeConverter(movie.duration)}",
-                                fontSize = 18.sp,
-                                color = Gray
-                            )
+                            Column(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    movie.genre.firstOrNull() ?: "",
+                                    lineHeight = 16.sp,
+                                    color = Gray
+                                )
+                                Text(
+                                    timeConverter(movie.duration),
+                                    lineHeight = 16.sp,
+                                    color = Gray
+                                )
+                            }
                         }
                         Button(
                             onClick = { if (isLoggedIn) onBuyClicked(movie.id) },

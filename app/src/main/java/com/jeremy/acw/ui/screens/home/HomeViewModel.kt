@@ -9,6 +9,7 @@ import com.jeremy.acw.data.repo.MovieRepo
 import com.jeremy.acw.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -18,9 +19,8 @@ class HomeViewModel @Inject constructor(
     val repo: MovieRepo,
     val auth: AuthService
 ): BaseViewModel() {
-    private val _currentUser = MutableStateFlow<UserData?>(null)
-    val currentUser = _currentUser.asStateFlow()
-
+    private val _user = MutableStateFlow<UserData?>(null)
+    val user = _user.asStateFlow()
     private val _moviesShowing = MutableStateFlow<List<Movie>>(emptyList())
     val moviesShowing = _moviesShowing.asStateFlow()
 
@@ -30,19 +30,35 @@ class HomeViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
-
     init {
-        fetchAllMovies()
+        fetchAll()
     }
 
-    fun fetchAllMovies() {
+    fun fetchAll() {
         viewModelScope.launch {
-            safeApiCall {
-                repo.fetchAllMovies().let {
-                    _moviesShowing.value = it.filter { it.status == MovieStatus.NOW_SHOWING.value }
-                    _moviesSoon.value = it.filter { it.status == MovieStatus.COMING_SOON.value }
-                    _isLoading.value = false
-                }
+            _isLoading.value = true
+
+            val moviesJob = async { fetchAllMovies() }
+            val userJob = async { fetchUser() }
+
+            moviesJob.await()
+            userJob.await()
+
+            _user.value = auth.currentUser.value
+            _isLoading.value = false
+        }
+    }
+
+    suspend fun fetchUser() {
+        val firebaseUser = auth.getCurrentUser() ?: return
+        auth.fetchUserData(firebaseUser.uid)
+    }
+
+    suspend fun fetchAllMovies() {
+        safeApiCall {
+            repo.fetchAllMovies().let {
+                _moviesShowing.value = it.filter { it.status == MovieStatus.NOW_SHOWING.value }
+                _moviesSoon.value = it.filter { it.status == MovieStatus.COMING_SOON.value }
             }
         }
     }

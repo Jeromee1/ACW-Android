@@ -3,7 +3,9 @@ package com.jeremy.acw.core.service
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 import com.jeremy.acw.data.model.user.FirebaseData
+import com.jeremy.acw.data.model.user.UserData
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,10 +13,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.tasks.await
 
 class AuthService @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val firestore: FirebaseFirestore
 ) {
     private val _user = MutableStateFlow<FirebaseData?>(null)
     val user = _user.asStateFlow()
+
+    private val _currentUser = MutableStateFlow<UserData?>(null)
+    val currentUser = _currentUser.asStateFlow()
 
     init {
         fetchLoggedInUser()
@@ -39,6 +45,22 @@ class AuthService @Inject constructor(
 
     fun getCurrentUser(): FirebaseData? {
         return user.value
+    }
+
+    suspend fun fetchUserData(uid: String) {
+        try {
+            val snapshot = firestore
+                .collection("users")
+                .document(uid)
+                .get()
+                .await()
+
+            val userData = snapshot.toObject(UserData::class.java)
+            _currentUser.value = userData
+        } catch (e: Exception) {
+            _currentUser.value = null
+            throw e
+        }
     }
 
     suspend fun register(email: String, password: String): String {
