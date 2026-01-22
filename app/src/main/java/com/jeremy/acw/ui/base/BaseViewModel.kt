@@ -64,6 +64,14 @@ open class BaseViewModel: ViewModel() {
         return true
     }
 
+    fun validateTheatre(theatre: String): Boolean {
+        if(theatre.isBlank()) {
+            emitToast("Theatre name cannot be blank")
+            return false
+        }
+        return true
+    }
+
     private fun emitToast(msg: String) {
         viewModelScope.launch {
             _toast.emit(msg)

@@ -1,17 +1,11 @@
 package com.jeremy.acw.ui.screens.admin.dashboard
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.jeremy.acw.ui.components.AdminContentWrapper
+import com.jeremy.acw.ui.components.core.CustomButton
 import com.jeremy.acw.ui.nav.Screen
 
 @Composable
@@ -30,7 +24,7 @@ fun DashboardScreen(
     }
 
     Dashboard() {
-//        navController.navigate(Screen.Theatres)
+        navController.navigate(Screen.Theatres)
     }
 }
 
@@ -39,10 +33,6 @@ fun Dashboard(
     navToTheatres: () -> Unit
 ) {
     AdminContentWrapper("DASHBOARD") {
-        Button(
-            onClick = { navToTheatres() },
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) { Text("THEATRES", modifier = Modifier.padding(8.dp)) }
+        CustomButton("THEATRES") { navToTheatres() }
     }
 }

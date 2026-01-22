@@ -18,4 +18,6 @@ sealed class Screen {
     object Profile: Screen()
     @Serializable
     object Dashboard: Screen()
+    @Serializable
+    object Theatres: Screen()
 }
