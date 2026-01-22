@@ -20,4 +20,6 @@ sealed class Screen {
     object Dashboard: Screen()
     @Serializable
     object Theatres: Screen()
+    @Serializable
+    data class Hall(val theatreId: String): Screen()
 }

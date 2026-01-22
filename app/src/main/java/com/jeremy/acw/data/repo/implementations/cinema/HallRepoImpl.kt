@@ -10,10 +10,11 @@ import java.lang.IllegalStateException
 class HallRepoImpl @Inject constructor(
     firestore: FirebaseFirestore
 ) : HallRepo {
-    private val dbRef = firestore.collection("halls")
+    private val dbRef = firestore.collection("theatres")
 
-    override suspend fun fetchAllHalls(): List<Hall> {
-        val snapshot = dbRef.get().await()
+    override suspend fun fetchAllHalls(theatreId: String): List<Hall> {
+        val snapshot = dbRef.document(theatreId)
+            .collection("halls").orderBy("hallName").get().await()
         return snapshot.documents.mapNotNull {
             it.toObject(Hall::class.java)
         }

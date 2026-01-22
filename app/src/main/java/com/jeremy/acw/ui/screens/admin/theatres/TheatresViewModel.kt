@@ -15,7 +15,10 @@ class TheatresViewModel @Inject constructor(
     private val theatreRepo: TheatreRepo
 ): BaseViewModel() {
     private val _theatres = MutableStateFlow<List<Theatre>>(emptyList())
-    val theatres = _theatres.asStateFlow()
+    private val theatres = _theatres.asStateFlow()
+
+    private val _sortedTheatres = MutableStateFlow<List<Theatre>>(emptyList())
+    val sortedTheatres = _sortedTheatres.asStateFlow()
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
@@ -30,6 +33,7 @@ class TheatresViewModel @Inject constructor(
             safeApiCall {
                 val data = theatreRepo.fetchAllTheatres()
                 _theatres.value = data
+                _sortedTheatres.value = theatres.value
                 _isLoading.value = false
             }
         }
@@ -40,7 +44,7 @@ class TheatresViewModel @Inject constructor(
             safeApiCall {
                 val res = validateTheatre(theatre)
                 if(res) {
-                    theatreRepo.createTheatre(Theatre(name = theatre))
+                    theatreRepo.createTheatre(theatre)
                     fetchTheatres()
                 }
             }
@@ -53,6 +57,12 @@ class TheatresViewModel @Inject constructor(
                 theatreRepo.deleteTheatre(id)
                 fetchTheatres()
             }
+        }
+    }
+
+    fun search(search: String) {
+        _sortedTheatres.value = theatres.value.filter {
+            it.id.startsWith(search, ignoreCase = true)
         }
     }
 }

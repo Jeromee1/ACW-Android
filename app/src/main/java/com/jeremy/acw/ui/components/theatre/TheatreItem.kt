@@ -40,14 +40,14 @@ fun TheatreItem(
     ) {
         Row(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(12.dp)
                 .fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(0.8f)
             ) {
                 Text(
-                    theatre.name,
+                    theatre.id,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
