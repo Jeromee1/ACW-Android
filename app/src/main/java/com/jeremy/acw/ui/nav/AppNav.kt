@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeremy.acw.ui.components.core.CustomMenu
 import com.jeremy.acw.ui.components.core.CustomTopBar
+import com.jeremy.acw.ui.screens.admin.dashboard.DashboardScreen
 import com.jeremy.acw.ui.screens.details.DetailsScreen
 import com.jeremy.acw.ui.screens.home.HomeScreen
 import com.jeremy.acw.ui.screens.login.LoginScreen
@@ -77,7 +78,7 @@ fun AppNav() {
             { /*navController.navigate(Screen.Bookings)*/ },
             { navController.navigate(Screen.Login) },
             { /*navController.navigate(Screen.About)*/ },
-            { /*navController.navigate(Screen.Dashboard)*/ }
+            { navController.navigate(Screen.Dashboard) }
         )
     }
 }
@@ -101,5 +102,6 @@ fun Nav(navController: NavHostController) {
             DetailsScreen(isLoggedIn, navController)
         }
         composable<Screen.Profile> { ProfileScreen(navController) }
+        composable<Screen.Dashboard> { DashboardScreen(navController) }
     }
 }

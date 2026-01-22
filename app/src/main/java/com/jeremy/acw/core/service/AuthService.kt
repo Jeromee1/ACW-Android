@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jeremy.acw.data.enums.Roles
 import com.jeremy.acw.data.model.user.FirebaseData
 import com.jeremy.acw.data.model.user.UserData
 import jakarta.inject.Inject
@@ -61,6 +62,11 @@ class AuthService @Inject constructor(
             _currentUser.value = null
             throw e
         }
+    }
+
+    fun isAdmin(): Boolean {
+        return if(currentUser.value?.role == Roles.ADMIN.value) true
+        else  false
     }
 
     suspend fun register(email: String, password: String): String {
