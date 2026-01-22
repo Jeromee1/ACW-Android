@@ -25,6 +25,7 @@ import com.jeremy.acw.ui.components.core.CustomTopBar
 import com.jeremy.acw.ui.screens.details.DetailsScreen
 import com.jeremy.acw.ui.screens.home.HomeScreen
 import com.jeremy.acw.ui.screens.login.LoginScreen
+import com.jeremy.acw.ui.screens.profile.ProfileScreen
 import com.jeremy.acw.ui.screens.register.RegisterScreen
 import com.jeremy.acw.ui.theme.Background
 import com.jeremy.acw.ui.theme.KindaWhite
@@ -72,8 +73,11 @@ fun AppNav() {
         CustomMenu(
             menuToggle,
             { menuToggle = false },
-            { /*navController.navigate(Screen.Profile)*/ },
-            { /*navController.navigate(Screen.Bookings)*/ }
+            { navController.navigate(Screen.Profile) },
+            { /*navController.navigate(Screen.Bookings)*/ },
+            { navController.navigate(Screen.Login) },
+            { /*navController.navigate(Screen.About)*/ },
+            { /*navController.navigate(Screen.Dashboard)*/ }
         )
     }
 }
@@ -96,5 +100,6 @@ fun Nav(navController: NavHostController) {
             val isLoggedIn = it.savedStateHandle.get<Boolean>("isLoggedIn") ?: false
             DetailsScreen(isLoggedIn, navController)
         }
+        composable<Screen.Profile> { ProfileScreen(navController) }
     }
 }

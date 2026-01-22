@@ -140,7 +140,6 @@ fun Details(
         ) {
             Text(
                 text = movie.desc,
-                fontSize = 18.sp,
                 maxLines = if (isExpanded) Int.MAX_VALUE else 3,
                 overflow = TextOverflow.Ellipsis,
                 onTextLayout = { textLayoutResult ->

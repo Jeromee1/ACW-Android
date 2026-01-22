@@ -14,4 +14,6 @@ sealed class Screen {
     object Home: Screen()
     @Serializable
     data class Details(val movieId: String, val isLoggedIn: Boolean): Screen()
+    @Serializable
+    object Profile: Screen()
 }

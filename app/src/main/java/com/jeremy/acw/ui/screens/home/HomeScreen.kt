@@ -41,8 +41,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val user by viewModel.currentUser.collectAsStateWithLifecycle()
     val moviesShowing by viewModel.moviesShowing.collectAsStateWithLifecycle()
+    val user by viewModel.user.collectAsStateWithLifecycle()
     val moviesSoon by viewModel.moviesSoon.collectAsStateWithLifecycle()
     var selectedStatus by remember { mutableStateOf(MovieStatus.entries.first().value) }
 

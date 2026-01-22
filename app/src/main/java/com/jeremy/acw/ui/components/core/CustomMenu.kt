@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +27,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.jeremy.acw.data.enums.Roles
 import com.jeremy.acw.ui.theme.BlackT
 import com.jeremy.acw.ui.theme.KindaWhite
 
@@ -34,8 +38,14 @@ fun CustomMenu(
     isOpen: Boolean,
     onClose: () -> Unit,
     navToProfile: () -> Unit,
-    navToBookings: () -> Unit
+    navToBookings: () -> Unit,
+    navToLogin: () -> Unit,
+    navToAbout: () -> Unit,
+    navToDashboard: () -> Unit,
+    viewModel: CustomMenuViewModel = hiltViewModel()
 ) {
+    val user by viewModel.user.collectAsStateWithLifecycle()
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -69,7 +79,7 @@ fun CustomMenu(
                 .background(Color.Black)
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 36.dp)
             ) {
                 Text(
                     "Menu",
@@ -78,30 +88,21 @@ fun CustomMenu(
                     modifier = Modifier.padding(16.dp, 24.dp, 16.dp, 16.dp)
                 )
                 HorizontalDivider(thickness = 1.dp, color = KindaWhite)
-                Text(
-                    "Profile",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onClose
-                            navToProfile()
-                        }
-                        .padding(16.dp)
-                )
-                Text(
-                    "Bookings",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onClose()
-                            navToBookings()
-                        }
-                        .padding(16.dp)
-                )
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    if(user != null) {
+                        MenuItem("Profile") { onClose(); navToProfile() }
+                        MenuItem("Bookings") { onClose(); navToBookings() }
+                    } else {
+                        MenuItem("Login / Register") { onClose(); navToLogin() }
+                    }
+                    MenuItem("About Us") { onClose(); navToAbout() }
+                }
+                Spacer(Modifier.weight(1f))
+                if(user?.role == Roles.ADMIN.value) {
+                    MenuItem("Dashboard") { onClose(); navToDashboard() }
+                }
             }
         }
     }

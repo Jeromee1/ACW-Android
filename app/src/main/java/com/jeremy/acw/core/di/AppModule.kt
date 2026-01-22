@@ -34,8 +34,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesFirebaseAuthService(firebaseAuth: FirebaseAuth): AuthService {
-        return AuthService(firebaseAuth)
+    fun providesFirebaseAuthService(firebaseAuth: FirebaseAuth, firestore: FirebaseFirestore): AuthService {
+        return AuthService(firebaseAuth, firestore)
     }
 
     @Provides
