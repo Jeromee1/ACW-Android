@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -19,19 +22,35 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.ui.components.AdminContentWrapper
+import com.jeremy.acw.ui.components.core.CustomBottomSheet
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.hall.HallItem
+import com.jeremy.acw.ui.nav.Screen
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HallScreen(
     navController: NavController,
     viewModel: HallViewModel = hiltViewModel()
 ) {
+    val scope = rememberCoroutineScope()
+
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val halls by viewModel.halls.collectAsStateWithLifecycle()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val theatreId = viewModel.theatreId
 
-    Hall(isLoading, halls) {
-//        navController.navigate(Screen.Screenings)
+    Hall(isLoading, halls,
+        { scope.launch { sheetState.show() } }
+    ) { id, name ->
+        navController.navigate(Screen.Screenings(theatreId, id, name))
+    }
+    CustomBottomSheet(
+        sheetState,
+        { scope.launch { sheetState.hide() } }
+    ) {
+        Text("Hello")
     }
 }
 
@@ -39,7 +58,8 @@ fun HallScreen(
 fun Hall(
     isLoading: Boolean,
     halls: List<Hall>,
-    onClicked: (String) -> Unit
+    onLongPressed: (String) -> Unit,
+    onClicked: (String, String) -> Unit
 ) {
     AdminContentWrapper("HALLS") {
         Text(
@@ -59,7 +79,10 @@ fun Hall(
                 horizontalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 items(halls) {
-                    HallItem(it) { onClicked(it.id) }
+                    HallItem(
+                        it,
+                        { onLongPressed(it.id) }
+                    ) { onClicked(it.id, it.hallName) }
                 }
             }
         } else {

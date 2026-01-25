@@ -24,16 +24,16 @@ interface TheatreRepo {
 
 interface HallRepo {
     suspend fun fetchAllHalls(theatreId: String): List<Hall>
-    suspend fun fetchHall(id: String): Hall
-    suspend fun createHall(hall: Hall)
-    suspend fun deleteHall(id: String)
+    suspend fun fetchHall(theatreId: String, id: String): Hall
+    suspend fun updateHall(theatreId: String, id: String, hall: Hall)
+    suspend fun deleteHall(theatreId: String, id: String)
 }
 
 interface ScreeningRepo {
-    suspend fun fetchAllScreenings(): List<Screening>
-    suspend fun fetchScreening(id: String): Screening
-    suspend fun createScreening(screening: Screening)
-    suspend fun deleteScreening(id: String)
+    suspend fun fetchAllScreenings(theatreId: String, hallId: String): List<Screening>
+    suspend fun fetchScreening(theatreId: String, hallId: String,  id: String): Screening
+    suspend fun createScreening(theatreId: String, hallId: String, screening: Screening)
+    suspend fun deleteScreening(theatreId: String, hallId: String, id: String)
 }
 
 interface BookingRepo {
