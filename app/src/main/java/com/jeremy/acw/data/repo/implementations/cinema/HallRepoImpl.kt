@@ -13,26 +13,39 @@ class HallRepoImpl @Inject constructor(
     private val dbRef = firestore.collection("theatres")
 
     override suspend fun fetchAllHalls(theatreId: String): List<Hall> {
-        val snapshot = dbRef.document(theatreId)
-            .collection("halls").orderBy("hallName").get().await()
+        val snapshot = dbRef
+            .document(theatreId)
+            .collection("halls")
+            .orderBy("hallName")
+            .get().await()
         return snapshot.documents.mapNotNull {
             it.toObject(Hall::class.java)
         }
     }
 
-    override suspend fun fetchHall(id: String): Hall {
-        return dbRef.document(id).get().await()
+    override suspend fun fetchHall(theatreId: String, id: String): Hall {
+        return dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(id)
+            .get().await()
             .toObject(Hall::class.java)
             ?: throw IllegalStateException("Hall doesn't exist")
     }
 
-    override suspend fun createHall(hall: Hall) {
-        val docRef = dbRef.document()
-        val hall = hall.copy(id = docRef.id)
-        docRef.set(hall.toMap()).await()
+    override suspend fun updateHall(theatreId: String, id: String, hall: Hall) {
+        dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(id)
+            .update(hall.toMap()).await()
     }
 
-    override suspend fun deleteHall(id: String) {
-        dbRef.document(id).delete().await()
+    override suspend fun deleteHall(theatreId: String, id: String) {
+        dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(id)
+            .delete().await()
     }
 }

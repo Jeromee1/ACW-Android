@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.jeremy.acw.ui.components.AdminContentWrapper
-import com.jeremy.acw.ui.components.core.CustomButton
+import com.jeremy.acw.ui.components.inputs.CustomButton
 import com.jeremy.acw.ui.nav.Screen
 
 @Composable

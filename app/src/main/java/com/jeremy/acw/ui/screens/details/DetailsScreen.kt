@@ -37,8 +37,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.compose.SubcomposeAsyncImage
-import com.jeremy.acw.core.utils.timeConverter
-import com.jeremy.acw.core.utils.timestampFormat
+import com.jeremy.acw.core.utils.longToStringTimeConverter
+import com.jeremy.acw.core.utils.timestampToDMY
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.core.SkeletonUI
@@ -117,7 +117,7 @@ fun Details(
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    text = "${movie.genre.firstOrNull() ?: ""} • ${timeConverter(movie.duration)}",
+                    text = "${movie.genre.firstOrNull() ?: ""} • ${longToStringTimeConverter(movie.duration)}",
                     fontSize = 18.sp,
                     color = Gray
                 )
@@ -180,7 +180,7 @@ fun Details(
                     modifier = Modifier.fillMaxWidth(0.5f),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    DetailsInfo("Release Date", timestampFormat(movie.releaseDate!!))
+                    DetailsInfo("Release Date", timestampToDMY(movie.releaseDate!!))
                     DetailsInfo("Genre", movie.genre.joinToString(" / "))
                     DetailsInfo("Subtitles", movie.subtitles.joinToString(" / "))
                 }
@@ -188,7 +188,7 @@ fun Details(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    DetailsInfo("Running Time", timeConverter(movie.duration))
+                    DetailsInfo("Running Time", longToStringTimeConverter(movie.duration))
                     DetailsInfo("Spoken Language", movie.language.joinToString(" / "))
                     DetailsInfo("Classifications", movie.ageRating)
                 }

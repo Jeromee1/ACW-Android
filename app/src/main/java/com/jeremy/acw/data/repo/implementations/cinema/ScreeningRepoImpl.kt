@@ -10,28 +10,50 @@ import java.lang.IllegalStateException
 class ScreeningRepoImpl @Inject constructor(
     firestore: FirebaseFirestore
 ) : ScreeningRepo {
-    private val dbRef = firestore.collection("screenings")
+    private val dbRef = firestore.collection("theatres")
 
-    override suspend fun fetchAllScreenings(): List<Screening> {
-        val snapshot = dbRef.get().await()
+    override suspend fun fetchAllScreenings(theatreId: String, hallId: String): List<Screening> {
+        val snapshot = dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(hallId)
+            .collection("screenings")
+            .get().await()
         return snapshot.documents.mapNotNull {
             it.toObject(Screening::class.java)
         }
     }
 
-    override suspend fun fetchScreening(id: String): Screening {
-        return dbRef.document(id).get().await()
+    override suspend fun fetchScreening(theatreId: String, hallId: String,  id: String): Screening {
+        return dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(hallId)
+            .collection("screenings")
+            .document(id)
+            .get().await()
             .toObject(Screening::class.java)
             ?: throw IllegalStateException("Screening doesn't exist")
     }
 
-    override suspend fun createScreening(screening: Screening) {
-        val docRef = dbRef.document()
-        val screening = screening.copy(id = docRef.id)
-        docRef.set(screening.toMap()).await()
+    override suspend fun createScreening(theatreId: String, hallId: String, screening: Screening) {
+        val docRef = dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(hallId)
+            .collection("screenings")
+            .document()
+        val newScreening = screening.copy(id = docRef.id)
+        docRef.set(newScreening.toMap()).await()
     }
 
-    override suspend fun deleteScreening(id: String) {
-        dbRef.document(id).delete().await()
+    override suspend fun deleteScreening(theatreId: String, hallId: String, id: String) {
+        dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(hallId)
+            .collection("screenings")
+            .document(id)
+            .delete().await()
     }
 }

@@ -1,0 +1,57 @@
+package com.jeremy.acw.ui.screens.admin.screenings
+
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
+import com.jeremy.acw.data.model.cinema.Screening
+import com.jeremy.acw.data.repo.ScreeningRepo
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.ZoneId
+
+@HiltViewModel
+class ScreeningsViewModel @Inject constructor(
+    private val screeningsRepo: ScreeningRepo,
+    savedStateHandle: SavedStateHandle
+) : BaseScreeningsViewModel() {
+    val theatreId = savedStateHandle.get<String>("theatreId")!!
+    val hallId = savedStateHandle.get<String>("hallId")!!
+
+    val hallName = savedStateHandle.get<String>("hallName")
+
+    private val _filteredScreenings = MutableStateFlow<List<Screening>>(emptyList())
+    val filteredScreenings = _filteredScreenings.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading = _isLoading.asStateFlow()
+
+    init {
+        fetchScreenings()
+    }
+
+    fun fetchScreenings() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            safeApiCall {
+                val data = screeningsRepo.fetchAllScreenings(theatreId, hallId)
+                _screenings.value = data
+                _isLoading.value = false
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun filterScreenings(date: LocalDate) {
+        val filteredDate = screenings.value.filter {
+            it.startTime?.toDate()?.toInstant()
+                ?.atZone(ZoneId.systemDefault())
+                ?.toLocalDate() == date
+        }
+        _filteredScreenings.value = filteredDate.sortedBy { it.startTime }
+    }
+}

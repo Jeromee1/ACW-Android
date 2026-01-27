@@ -1,4 +1,4 @@
-package com.jeremy.acw.ui.components.core
+package com.jeremy.acw.ui.components.inputs
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

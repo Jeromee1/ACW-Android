@@ -1,7 +1,7 @@
 package com.jeremy.acw.ui.components.hall
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +20,7 @@ import com.jeremy.acw.ui.theme.Secondary
 @Composable
 fun HallItem(
     hall: Hall,
+    onLongPressed: () -> Unit,
     onClicked: () -> Unit
 ) {
     Box(
@@ -27,8 +28,11 @@ fun HallItem(
             .fillMaxSize()
             .aspectRatio(1f)
             .background(Secondary, RoundedCornerShape(8.dp))
-            .padding(12.dp)
-            .clickable { onClicked() },
+            .combinedClickable(
+                onClick = { onClicked() },
+                onLongClick = { onLongPressed() }
+            )
+            .padding(12.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
