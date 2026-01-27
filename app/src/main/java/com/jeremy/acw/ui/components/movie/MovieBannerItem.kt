@@ -42,7 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.SubcomposeAsyncImage
-import com.jeremy.acw.core.utils.timeConverter
+import com.jeremy.acw.core.utils.longToStringTimeConverter
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.ui.components.core.SkeletonUI
 import com.jeremy.acw.ui.theme.BlackTG
@@ -146,7 +146,7 @@ fun MovieBannerItem(
                                     color = Gray
                                 )
                                 Text(
-                                    timeConverter(movie.duration),
+                                    longToStringTimeConverter(movie.duration),
                                     lineHeight = 16.sp,
                                     color = Gray
                                 )

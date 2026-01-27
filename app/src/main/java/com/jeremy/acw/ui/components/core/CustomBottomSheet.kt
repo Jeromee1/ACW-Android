@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.jeremy.acw.ui.theme.Background
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -22,7 +23,8 @@ fun CustomBottomSheet(
 ) {
     if(bottomSheetState.isVisible) {
         ModalBottomSheet(
-            onDismissRequest = { closeBottomSheet() }
+            onDismissRequest = { closeBottomSheet() },
+            containerColor = Background
         ) {
             Column(
                 modifier = Modifier
