@@ -18,6 +18,7 @@ interface MovieRepo {
 interface TheatreRepo {
     suspend fun fetchAllTheatres(): List<Theatre>
     suspend fun fetchTheatre(id: String): Theatre
+    suspend fun fetchScreeningsFromTheatre(id: String): Int
     suspend fun createTheatre(theatre: String)
     suspend fun deleteTheatre(id: String)
 }

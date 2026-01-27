@@ -11,7 +11,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +28,7 @@ import com.jeremy.acw.ui.components.AdminContentWrapper
 import com.jeremy.acw.ui.components.core.CustomBottomSheet
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.hall.HallItem
+import com.jeremy.acw.ui.components.hall.HallSheetContent
 import com.jeremy.acw.ui.nav.Screen
 import kotlinx.coroutines.launch
 
@@ -38,19 +42,29 @@ fun HallScreen(
 
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val halls by viewModel.halls.collectAsStateWithLifecycle()
+    var selectedItem by remember { mutableStateOf<Hall?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val theatreId = viewModel.theatreId
 
     Hall(isLoading, halls,
-        { scope.launch { sheetState.show() } }
+        { selectedItem = it; scope.launch { sheetState.show() } }
     ) { id, name ->
         navController.navigate(Screen.Screenings(theatreId, id, name))
     }
-    CustomBottomSheet(
-        sheetState,
-        { scope.launch { sheetState.hide() } }
-    ) {
-        Text("Hello")
+    selectedItem?.let {
+        CustomBottomSheet(
+            sheetState,
+            { scope.launch { sheetState.hide() } }
+        ) {
+            HallSheetContent(
+                selectedItem!!.seatLayout,
+                selectedItem!!.hallType
+            ) { size, type ->
+                val updatedHall = selectedItem!!.copy(seatLayout = size, hallType = type)
+                viewModel.updateHall(selectedItem!!.id, updatedHall)
+                scope.launch { sheetState.hide() }
+            }
+        }
     }
 }
 
@@ -58,7 +72,7 @@ fun HallScreen(
 fun Hall(
     isLoading: Boolean,
     halls: List<Hall>,
-    onLongPressed: (String) -> Unit,
+    onLongPressed: (Hall) -> Unit,
     onClicked: (String, String) -> Unit
 ) {
     AdminContentWrapper("HALLS") {
@@ -81,7 +95,7 @@ fun Hall(
                 items(halls) {
                     HallItem(
                         it,
-                        { onLongPressed(it.id) }
+                        { onLongPressed(it) }
                     ) { onClicked(it.id, it.hallName) }
                 }
             }

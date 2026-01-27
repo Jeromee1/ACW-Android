@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import com.jeremy.acw.data.model.cinema.Theatre
 import com.jeremy.acw.data.model.ui.FieldData
 import com.jeremy.acw.ui.components.AdminContentWrapper
-import com.jeremy.acw.ui.components.core.CustomButton
+import com.jeremy.acw.ui.components.inputs.CustomButton
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.inputs.CustomTextField
 import com.jeremy.acw.ui.components.theatre.TheatreItem
@@ -85,9 +85,8 @@ fun Theatres(
                 items(theatres) {
                     TheatreItem(
                         it,
-                        0,
                         { onClicked(it.id) }
-                    ) { onDeleteClicked(it.id) }
+                    )
                 }
             }
         } else {

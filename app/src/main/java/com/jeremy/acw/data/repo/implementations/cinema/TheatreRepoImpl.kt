@@ -28,6 +28,16 @@ class TheatreRepoImpl @Inject constructor(
             ?: throw IllegalStateException("Theatre doesn't exist")
     }
 
+    override suspend fun fetchScreeningsFromTheatre(id: String): Int {
+        val snapshot = dbRef.firestore
+            .collectionGroup("screenings")
+            .whereEqualTo("theatreId", id)
+            .get()
+            .await()
+
+        return snapshot.size()
+    }
+
     override suspend fun createTheatre(theatre: String) {
         val theatreRef = dbRef.document(theatre)
         val batch = theatreRef.firestore.batch()

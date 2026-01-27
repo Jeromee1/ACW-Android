@@ -38,4 +38,13 @@ class HallViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateHall(id: String, hall: Hall) {
+        viewModelScope.launch {
+            safeApiCall {
+                hallRepo.updateHall(theatreId, id, hall)
+                fetchHalls()
+            }
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.jeremy.acw.ui.nav
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
@@ -24,6 +26,7 @@ import com.jeremy.acw.ui.components.core.CustomMenu
 import com.jeremy.acw.ui.components.core.CustomTopBar
 import com.jeremy.acw.ui.screens.admin.dashboard.DashboardScreen
 import com.jeremy.acw.ui.screens.admin.halls.HallScreen
+import com.jeremy.acw.ui.screens.admin.screenings.ScreeningsAddScreen
 import com.jeremy.acw.ui.screens.admin.screenings.ScreeningsScreen
 import com.jeremy.acw.ui.screens.admin.theatres.TheatresScreen
 import com.jeremy.acw.ui.screens.details.DetailsScreen
@@ -34,6 +37,7 @@ import com.jeremy.acw.ui.screens.register.RegisterScreen
 import com.jeremy.acw.ui.theme.Background
 import com.jeremy.acw.ui.theme.KindaWhite
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AppNav() {
     val navController = rememberNavController()
@@ -86,6 +90,7 @@ fun AppNav() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Nav(navController: NavHostController) {
     NavHost(
@@ -109,5 +114,6 @@ fun Nav(navController: NavHostController) {
         composable<Screen.Theatres> { TheatresScreen(navController) }
         composable<Screen.Hall> { HallScreen(navController) }
         composable<Screen.Screenings> { ScreeningsScreen(navController) }
+        composable<Screen.ScreeningsAdd> { ScreeningsAddScreen(navController) }
     }
 }
