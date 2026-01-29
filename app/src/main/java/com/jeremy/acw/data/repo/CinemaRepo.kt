@@ -1,5 +1,6 @@
 package com.jeremy.acw.data.repo
 
+import com.jeremy.acw.data.enums.cinema.SeatStatus
 import com.jeremy.acw.data.model.cinema.Booking
 import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.data.model.cinema.Movie
@@ -35,6 +36,7 @@ interface ScreeningRepo {
     suspend fun fetchScreening(theatreId: String, hallId: String,  id: String): Screening
     suspend fun createScreening(theatreId: String, hallId: String, screening: Screening)
     suspend fun deleteScreening(theatreId: String, hallId: String, id: String)
+    suspend fun updateSeats(theatreId: String, hallId: String, id: String, seats: Map<String, SeatStatus>)
 }
 
 interface BookingRepo {

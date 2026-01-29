@@ -48,8 +48,8 @@ fun HallScreen(
 
     Hall(isLoading, halls,
         { selectedItem = it; scope.launch { sheetState.show() } }
-    ) { id, name ->
-        navController.navigate(Screen.Screenings(theatreId, id, name))
+    ) { id, name, size ->
+        navController.navigate(Screen.Screenings(theatreId, id, name, size))
     }
     selectedItem?.let {
         CustomBottomSheet(
@@ -73,7 +73,7 @@ fun Hall(
     isLoading: Boolean,
     halls: List<Hall>,
     onLongPressed: (Hall) -> Unit,
-    onClicked: (String, String) -> Unit
+    onClicked: (String, String, String) -> Unit
 ) {
     AdminContentWrapper("HALLS") {
         Text(
@@ -96,7 +96,7 @@ fun Hall(
                     HallItem(
                         it,
                         { onLongPressed(it) }
-                    ) { onClicked(it.id, it.hallName) }
+                    ) { onClicked(it.id, it.hallName, it.seatLayout) }
                 }
             }
         } else {

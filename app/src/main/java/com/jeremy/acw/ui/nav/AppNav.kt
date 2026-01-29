@@ -26,6 +26,7 @@ import com.jeremy.acw.ui.components.core.CustomMenu
 import com.jeremy.acw.ui.components.core.CustomTopBar
 import com.jeremy.acw.ui.screens.admin.dashboard.DashboardScreen
 import com.jeremy.acw.ui.screens.admin.halls.HallScreen
+import com.jeremy.acw.ui.screens.admin.manageSeats.ManageSeatsScreen
 import com.jeremy.acw.ui.screens.admin.screenings.ScreeningsAddScreen
 import com.jeremy.acw.ui.screens.admin.screenings.ScreeningsScreen
 import com.jeremy.acw.ui.screens.admin.theatres.TheatresScreen
@@ -115,5 +116,6 @@ fun Nav(navController: NavHostController) {
         composable<Screen.Hall> { HallScreen(navController) }
         composable<Screen.Screenings> { ScreeningsScreen(navController) }
         composable<Screen.ScreeningsAdd> { ScreeningsAddScreen(navController) }
+        composable<Screen.ManageSeats> { ManageSeatsScreen(navController) }
     }
 }
