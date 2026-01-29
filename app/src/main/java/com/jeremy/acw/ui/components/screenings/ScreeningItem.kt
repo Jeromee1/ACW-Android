@@ -1,5 +1,6 @@
 package com.jeremy.acw.ui.components.screenings
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,13 +18,16 @@ import com.jeremy.acw.ui.theme.Secondary
 
 @Composable
 fun ScreeningItem(
-    screening: Screening
+    screening: Screening,
+    onClicked: () -> Unit
 ) {
     val displayStartTime = screening.startTime!!.toDate().toTimeString()
     val displayEndTime = screening.endTime!!.toDate().toTimeString()
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClicked() },
         colors = CardDefaults.cardColors(
             containerColor = Secondary
         )

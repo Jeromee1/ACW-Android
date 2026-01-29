@@ -1,6 +1,7 @@
 package com.jeremy.acw.data.repo.implementations.cinema
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.jeremy.acw.data.enums.cinema.SeatStatus
 import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.data.repo.ScreeningRepo
 import jakarta.inject.Inject
@@ -55,5 +56,21 @@ class ScreeningRepoImpl @Inject constructor(
             .collection("screenings")
             .document(id)
             .delete().await()
+    }
+
+    override suspend fun updateSeats(
+        theatreId: String,
+        hallId: String,
+        id: String,
+        seats: Map<String, SeatStatus>
+    ) {
+        dbRef
+            .document(theatreId)
+            .collection("halls")
+            .document(hallId)
+            .collection("screenings")
+            .document(id)
+            .update("seats", seats.mapValues { it.value })
+            .await()
     }
 }

@@ -10,7 +10,6 @@ val Background = Color(36, 35, 42)
 val KindaWhite = Color(240, 240, 240)
 val BlackT = Color(0, 0, 0, 100)
 val Gray = Color(180, 180, 180)
-val Delete = Color(150, 0, 0)
 
 val BlackTG = Brush.linearGradient(
     colors = listOf(
@@ -35,3 +34,6 @@ val BlackPurpleTG = Brush.linearGradient(
     start = Offset(0f, 0f),
     end = Offset(0f, Float.POSITIVE_INFINITY)
 )
+
+val Success = Color(0, 120, 0)
+val Danger = Color(150, 0, 0)

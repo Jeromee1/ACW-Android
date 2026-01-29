@@ -26,7 +26,8 @@ sealed class Screen {
     data class Screenings(
         val theatreId: String,
         val hallId: String,
-        val hallName: String
+        val hallName: String,
+        val hallSize: String
     ): Screen()
     @Serializable
     data class ScreeningsAdd(
@@ -35,4 +36,11 @@ sealed class Screen {
         val date: String,
         val lastMovieEnd: Long?
     ): Screen()
+    @Serializable
+    data class ManageSeats(
+        val theatreId: String,
+        val hallId: String,
+        val hallSize: String,
+        val screeningId: String
+    )
 }

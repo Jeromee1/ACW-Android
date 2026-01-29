@@ -61,11 +61,12 @@ fun ScreeningsScreen(
 ) {
     val context = LocalContext.current
     val screenings = viewModel.filteredScreenings.collectAsStateWithLifecycle().value
-    val hallName = viewModel.hallName ?: ""
-    val currentDate = LocalDate.now()
+    val hallName = viewModel.hallName
+    val currentDate = viewModel.currentDate
     val selectedDate = remember { mutableStateOf(currentDate) }
     val theatreId = viewModel.theatreId
     val hallId = viewModel.hallId
+    val hallSize = viewModel.hallSize
 
     LaunchedEffect(viewModel.screenings, selectedDate.value) {
         viewModel.filterScreenings(selectedDate.value)
@@ -83,15 +84,20 @@ fun ScreeningsScreen(
             "Screenings can only be added the next day.",
             Toast.LENGTH_SHORT
             ).show()
+        },
+        { navController.navigate(
+            Screen.ScreeningsAdd(
+                theatreId,
+                hallId,
+                selectedDate.value.toString(),
+                screenings.lastOrNull()?.endTime?.toDate()?.time
+                )
+            )
+        },
+        { navController.navigate(
+            Screen.ManageSeats(theatreId, hallId, hallSize,it))
         }
-    ) { navController.navigate(
-        Screen.ScreeningsAdd(
-            theatreId,
-            hallId,
-            selectedDate.value.toString(),
-            screenings.lastOrNull()?.endTime?.toDate()?.time
-        )
-    ) }
+    )
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -103,7 +109,8 @@ fun Screenings(
     onDateChanged: (LocalDate) -> Unit,
     showAdd: Boolean,
     showWarning: () -> Unit,
-    navToAdd: () -> Unit
+    navToAdd: () -> Unit,
+    navToSeats: (String) -> Unit
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
 
@@ -181,7 +188,7 @@ fun Screenings(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(screenings) { ScreeningItem(it) }
+                    items(screenings) { ScreeningItem(it) { navToSeats(it.id) } }
                 }
             } else {
                 Box(

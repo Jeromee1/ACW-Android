@@ -10,7 +10,8 @@ data class Screening(
     val hallId: String = "",
     val startTime: Timestamp? = null,
     val endTime: Timestamp? = null,
-    val price: Double = 0.0
+    val price: Double = 0.0,
+    val seats: Map<String, String> = emptyMap()
 ) {
     fun toMap(): Map<String, Any> {
         requireNotNull(startTime) { "Starting time must be set" }
@@ -25,6 +26,7 @@ data class Screening(
             "startTime" to startTime,
             "endTime" to endTime,
             "price" to price,
+            "seats" to seats,
             )
         }
 }

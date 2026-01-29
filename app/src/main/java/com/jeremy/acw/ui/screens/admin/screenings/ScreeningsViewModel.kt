@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.ZoneId
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class ScreeningsViewModel @Inject constructor(
     private val screeningsRepo: ScreeningRepo,
@@ -22,7 +23,10 @@ class ScreeningsViewModel @Inject constructor(
     val theatreId = savedStateHandle.get<String>("theatreId")!!
     val hallId = savedStateHandle.get<String>("hallId")!!
 
-    val hallName = savedStateHandle.get<String>("hallName")
+    val hallName = savedStateHandle.get<String>("hallName")!!
+    val hallSize = savedStateHandle.get<String>("hallSize")!!
+
+    val currentDate = LocalDate.now()
 
     private val _filteredScreenings = MutableStateFlow<List<Screening>>(emptyList())
     val filteredScreenings = _filteredScreenings.asStateFlow()
@@ -40,12 +44,12 @@ class ScreeningsViewModel @Inject constructor(
             safeApiCall {
                 val data = screeningsRepo.fetchAllScreenings(theatreId, hallId)
                 _screenings.value = data
+                filterScreenings(currentDate)
                 _isLoading.value = false
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun filterScreenings(date: LocalDate) {
         val filteredDate = screenings.value.filter {
             it.startTime?.toDate()?.toInstant()
