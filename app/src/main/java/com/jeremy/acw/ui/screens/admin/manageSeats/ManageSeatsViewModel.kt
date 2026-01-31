@@ -58,7 +58,13 @@ class ManageSeatsViewModel @Inject constructor(
     fun submit() {
         viewModelScope.launch {
             safeApiCall {
-                screeningRepo.updateSeats(theatreId, hallId, screeningId, tempSeats.value)
+                screeningRepo.updateSeats(
+                    theatreId,
+                    hallId,
+                    screeningId,
+                    _seats.value,
+                    tempSeats.value
+                )
                 _finish.emit(Unit)
             }
         }

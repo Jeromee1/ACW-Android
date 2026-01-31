@@ -1,6 +1,7 @@
 package com.jeremy.acw.ui.components.movie
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -17,11 +18,13 @@ import coil3.compose.SubcomposeAsyncImage
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.ui.components.core.SkeletonUI
 import com.jeremy.acw.ui.theme.Gray
+import com.jeremy.acw.ui.theme.Secondary
 
 @Composable
 fun MovieItem(
     movie: Movie,
-    onClicked: (String) -> Unit
+    onClicked: (String) -> Unit,
+    onLongPressed: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -33,8 +36,12 @@ fun MovieItem(
             contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(2f/ 3f)
-                .clickable { onClicked(movie.id) },
+                .aspectRatio(2f / 3f)
+                .background(Secondary)
+                .combinedClickable(
+                    onClick = { onClicked(movie.id) },
+                    onLongClick = { onLongPressed(movie.id) }
+                ),
             contentScale = ContentScale.FillWidth,
             loading = { SkeletonUI() }
         )

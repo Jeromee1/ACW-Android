@@ -1,9 +1,11 @@
 package com.jeremy.acw.data.repo.implementations.cinema
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jeremy.acw.core.utils.buildUpdateReq
 import com.jeremy.acw.data.model.cinema.Movie
-import com.jeremy.acw.data.model.forms.UpdateMovieForm
+import com.jeremy.acw.data.model.forms.MovieForm
 import com.jeremy.acw.data.repo.MovieRepo
 import jakarta.inject.Inject
 import kotlinx.coroutines.tasks.await
@@ -33,7 +35,8 @@ class MovieRepoImpl @Inject constructor(
         docRef.set(movie.toMap()).await()
     }
 
-    override suspend fun updateMovie(id: String, form: UpdateMovieForm) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    override suspend fun updateMovie(id: String, form: MovieForm) {
         val updates = buildUpdateReq(form)
         dbRef.document(id).update(updates.toMap()).await()
     }

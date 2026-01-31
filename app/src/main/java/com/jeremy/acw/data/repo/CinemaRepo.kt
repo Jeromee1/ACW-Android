@@ -6,13 +6,13 @@ import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.data.model.cinema.Theatre
-import com.jeremy.acw.data.model.forms.UpdateMovieForm
+import com.jeremy.acw.data.model.forms.MovieForm
 
 interface MovieRepo {
     suspend fun fetchAllMovies(): List<Movie>
     suspend fun fetchMovie(id: String): Movie
     suspend fun createMovie(movie: Movie)
-    suspend fun updateMovie(id: String, form: UpdateMovieForm)
+    suspend fun updateMovie(id: String, form: MovieForm)
     suspend fun deleteMovie(id: String)
 }
 
@@ -36,7 +36,13 @@ interface ScreeningRepo {
     suspend fun fetchScreening(theatreId: String, hallId: String,  id: String): Screening
     suspend fun createScreening(theatreId: String, hallId: String, screening: Screening)
     suspend fun deleteScreening(theatreId: String, hallId: String, id: String)
-    suspend fun updateSeats(theatreId: String, hallId: String, id: String, seats: Map<String, SeatStatus>)
+    suspend fun updateSeats(
+        theatreId: String,
+        hallId: String,
+        id: String,
+        fetched: Map<String, SeatStatus>,
+        seats: Map<String, SeatStatus>
+    )
 }
 
 interface BookingRepo {

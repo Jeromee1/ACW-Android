@@ -9,7 +9,7 @@ import kotlinx.coroutines.tasks.await
 import java.lang.IllegalStateException
 
 class ScreeningRepoImpl @Inject constructor(
-    firestore: FirebaseFirestore
+    private val firestore: FirebaseFirestore
 ) : ScreeningRepo {
     private val dbRef = firestore.collection("theatres")
 
@@ -62,15 +62,34 @@ class ScreeningRepoImpl @Inject constructor(
         theatreId: String,
         hallId: String,
         id: String,
+        fetched: Map<String, SeatStatus>,
         seats: Map<String, SeatStatus>
     ) {
-        dbRef
+        val seatsToUpdate = seats.filter { (seatId, newStatus) ->
+            fetched[seatId] != newStatus
+        }
+
+        if (seatsToUpdate.isEmpty()) return
+
+        val docRef = dbRef
             .document(theatreId)
             .collection("halls")
             .document(hallId)
             .collection("screenings")
             .document(id)
-            .update("seats", seats.mapValues { it.value })
-            .await()
+
+        firestore.runTransaction { transaction ->
+            val snapshot = transaction.get(docRef)
+            val currentDbSeats = snapshot.get("seats") as? Map<String, String> ?: emptyMap()
+            for ((seatId, _) in seatsToUpdate) {
+                val currentStatusInDb = currentDbSeats[seatId]
+                val expectedStatus = fetched[seatId]?.name
+                if (currentStatusInDb != expectedStatus) {
+                    throw IllegalStateException("Conflict: Seat $seatId is no longer $expectedStatus (Now: $currentStatusInDb)")
+                }
+            }
+            val updates = seatsToUpdate.mapKeys { "seats.${it.key}" }.mapValues { it.value.name }
+            transaction.update(docRef, updates)
+        }.await()
     }
 }

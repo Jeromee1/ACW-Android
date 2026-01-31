@@ -18,6 +18,9 @@ data class Movie(
     val imgUrl: String = ""
 ) {
     fun toMap(): Map<String, Any> {
+        requireNotNull(title) { "Title must be set" }
+        requireNotNull(desc) { "Description must be set" }
+        requireNotNull(imgUrl) { "Poster URL must be set" }
         requireNotNull(releaseDate) { "Release Date must be set" }
 
         return mutableMapOf(
