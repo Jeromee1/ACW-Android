@@ -3,7 +3,7 @@ package com.jeremy.acw.core.utils
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.firebase.Timestamp
-import com.jeremy.acw.data.model.forms.UpdateMovieForm
+import com.jeremy.acw.data.model.forms.MovieForm
 import com.jeremy.acw.data.model.requests.UpdateMovieReq
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -13,17 +13,19 @@ import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
-fun buildUpdateReq(data: UpdateMovieForm): UpdateMovieReq {
+@RequiresApi(Build.VERSION_CODES.O)
+fun buildUpdateReq(data: MovieForm): UpdateMovieReq {
     return UpdateMovieReq(
         title = data.title,
-        desc = data.desc,
+        desc = data.description,
         duration = data.duration,
         genre = data.genre,
         language = data.language,
         subtitles = data.subtitles,
         ageRating = data.ageRating,
         status = data.status,
-        imgUrl = data.imgUrl
+        imgUrl = data.imgUrl,
+        releaseDate = data.releaseDate
     )
 }
 

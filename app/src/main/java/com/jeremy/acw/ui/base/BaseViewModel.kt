@@ -3,6 +3,7 @@ package com.jeremy.acw.ui.base
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jeremy.acw.data.model.forms.MovieForm
 import com.jeremy.acw.data.model.forms.RegisterForm
 import com.jeremy.acw.data.model.requests.LoginReq
 import kotlinx.coroutines.Dispatchers
@@ -67,6 +68,22 @@ open class BaseViewModel: ViewModel() {
     fun validateTheatre(theatre: String): Boolean {
         if(theatre.isBlank()) {
             emitToast("Theatre name cannot be blank")
+            return false
+        }
+        return true
+    }
+
+    fun validateMovie(form: MovieForm): Boolean {
+        if(form.title.isBlank()) {
+            emitToast("Title cannot be blank")
+            return false
+        }
+        if(form.description.isBlank()) {
+            emitToast("Description cannot be blank")
+            return false
+        }
+        if(form.imgUrl.isBlank()) {
+            emitToast("Poster URL cannot be blank")
             return false
         }
         return true

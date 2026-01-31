@@ -4,11 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircleOutline
 import androidx.compose.material3.Text
@@ -151,31 +151,23 @@ fun ScreeningsAdd(
                 modifier = Modifier.fillMaxWidth()
             )
             CustomTextField(FieldData("Search", search) { onSearchChanged(it) })
-            val columns = 2
-            val rows = movies.chunked(columns)
             if(movies.isNotEmpty()) {
-                Column(
+                LazyVerticalGrid(
+                    GridCells.Fixed(2),
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    rows.forEach { rowItems ->
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    items(movies) {
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            contentAlignment = Alignment.Center
                         ) {
-                            rowItems.forEach { movie ->
-                                Box(
-                                    modifier = Modifier.weight(1f),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    MovieItem(movie) { onSelectMovie(it) }
-                                }
-                            }
-                            if (rowItems.size < columns) {
-                                repeat(columns - rowItems.size) {
-                                    Spacer(modifier = Modifier.weight(1f))
-                                }
-                            }
+                            MovieItem(
+                                it,
+                                { onSelectMovie(it) },
+                                {}
+                            )
                         }
                     }
                 }

@@ -23,16 +23,19 @@ fun DashboardScreen(
         }
     }
 
-    Dashboard() {
-        navController.navigate(Screen.Theatres)
-    }
+    Dashboard(
+        { navController.navigate(Screen.OverviewMovies) },
+        { navController.navigate(Screen.Theatres) }
+    )
 }
 
 @Composable
 fun Dashboard(
+    navToMovies: () -> Unit,
     navToTheatres: () -> Unit
 ) {
     AdminContentWrapper("DASHBOARD") {
+        CustomButton("MOVIES") { navToMovies() }
         CustomButton("THEATRES") { navToTheatres() }
     }
 }

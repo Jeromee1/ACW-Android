@@ -27,6 +27,9 @@ class HomeViewModel @Inject constructor(
     private val _moviesSoon = MutableStateFlow<List<Movie>>(emptyList())
     val moviesSoon = _moviesSoon.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
 
@@ -62,4 +65,11 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+
+    fun refresh() {
+        _isRefreshing.value = true
+        fetchAll()
+        _isRefreshing.value = false
+    }
+
 }

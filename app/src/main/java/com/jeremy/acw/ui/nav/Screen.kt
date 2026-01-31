@@ -43,4 +43,10 @@ sealed class Screen {
         val hallSize: String,
         val screeningId: String
     )
+    @Serializable
+    object OverviewMovies: Screen()
+    @Serializable
+    object AddMovie: Screen()
+    @Serializable
+    data class EditMovie(val movieId: String): Screen()
 }
