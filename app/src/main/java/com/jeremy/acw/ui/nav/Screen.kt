@@ -67,4 +67,6 @@ sealed class Screen {
         val selectedSeats: String,
         val movieTitle: String
     ): Screen()
+    @Serializable
+    object PaymentSuccess: Screen()
 }

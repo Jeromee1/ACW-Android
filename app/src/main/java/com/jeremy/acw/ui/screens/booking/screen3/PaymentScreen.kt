@@ -69,7 +69,9 @@ fun PaymentScreen(
 
     LaunchedEffect(Unit) {
         viewModel.finish.collect {
-            navController.popBackStack(Screen.Home, inclusive = false)
+            navController.navigate(Screen.PaymentSuccess) {
+                popUpTo<Screen.Booking> { inclusive = true }
+            }
         }
     }
 
