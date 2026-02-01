@@ -3,6 +3,7 @@ package com.jeremy.acw.ui.screens.booking.screen2
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.jeremy.acw.data.enums.cinema.SeatStatus
+import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.data.repo.HallRepo
 import com.jeremy.acw.data.repo.ScreeningRepo
 import com.jeremy.acw.ui.screens.booking.BaseBookingViewModel
@@ -24,9 +25,16 @@ class BookingSeatSelectViewmodel @Inject constructor(
     val theatreId = savedStateHandle.get<String>("theatreId")!!
     val hallId = savedStateHandle.get<String>("hallId")!!
     val screeningId = savedStateHandle.get<String>("screeningId")!!
+    val movieTitle = savedStateHandle.get<String>("movieTitle")!!
 
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
+    private val _hall = MutableStateFlow<Hall?>(null)
+    val hall = _hall.asStateFlow()
+
+    private val _seats = MutableStateFlow<Map<String, SeatStatus>>(emptyMap())
+    val seats = _seats.asStateFlow()
+
+    private val _tempSeats = MutableStateFlow<Map<String, SeatStatus>>(emptyMap())
+    val tempSeats = _tempSeats.asStateFlow()
 
     init {
         fetchAll()
@@ -50,6 +58,7 @@ class BookingSeatSelectViewmodel @Inject constructor(
         safeApiCall {
             val data = screeningRepo.fetchScreening(theatreId, hallId, screeningId)
             _screening.value = data
+            _seats.value = data.seats.mapValues { SeatStatus.fromString(it.value) }
             _tempSeats.value = data.seats.mapValues { SeatStatus.fromString(it.value) }
         }
     }

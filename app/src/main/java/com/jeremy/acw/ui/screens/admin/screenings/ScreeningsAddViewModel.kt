@@ -119,6 +119,7 @@ class ScreeningsAddViewModel @Inject constructor(
                 movieTitle = movie.title,
                 theatreId = theatreId,
                 hallId = hallId,
+                hallName = hall.value!!.hallName,
                 hallType = hall.value!!.hallType,
                 startTime = startingTime,
                 endTime = endTime,

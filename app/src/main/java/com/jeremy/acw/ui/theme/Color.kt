@@ -8,7 +8,7 @@ val Primary = Color(109, 40, 217)
 val Secondary = Color(107, 114, 128)
 
 //Im going crazy
-val SecondarySecondary = Color(67, 71, 78, 255)
+val SecondarySecondary = Color(61, 63, 71, 255)
 val Background = Color(36, 35, 42)
 val KindaWhite = Color(240, 240, 240)
 val BlackT = Color(0, 0, 0, 100)

@@ -33,8 +33,8 @@ class BookingViewModel @Inject constructor(
 ) : BaseBookingViewModel() {
     val movieId = savedStateHandle.get<String>("movieId")!!
 
-    private val _isLoading = MutableStateFlow(true)
-    val isLoading = _isLoading.asStateFlow()
+    private val _screenings = MutableStateFlow<List<Screening>>(emptyList())
+    val screenings = _screenings.asStateFlow()
 
     private val _sortedScreenings = MutableStateFlow<List<Screening>>(emptyList())
     val sortedScreenings = _sortedScreenings.asStateFlow()

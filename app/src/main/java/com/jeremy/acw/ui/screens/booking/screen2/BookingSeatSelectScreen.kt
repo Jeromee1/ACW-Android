@@ -26,12 +26,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.jeremy.acw.core.utils.seatMapToString
+import com.jeremy.acw.core.utils.seatToString
 import com.jeremy.acw.data.enums.cinema.SeatStatus
 import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.inputs.CustomButton
 import com.jeremy.acw.ui.components.seats.CustomSeatLayout
+import com.jeremy.acw.ui.nav.Screen
 import com.jeremy.acw.ui.theme.BlackT
 import com.jeremy.acw.ui.theme.Secondary
 import com.jeremy.acw.ui.theme.SecondarySecondary
@@ -44,7 +47,12 @@ fun BookingSeatSelectScreen(
     val isLoading = viewModel.isLoading.collectAsStateWithLifecycle().value
     val hall = viewModel.hall.collectAsStateWithLifecycle().value
     val screening = viewModel.screening.collectAsStateWithLifecycle().value
+    val originalSeats = viewModel.seats.collectAsStateWithLifecycle().value
     val seats = viewModel.tempSeats.collectAsStateWithLifecycle().value
+    val theatreId = viewModel.theatreId
+    val hallId = viewModel.hallId
+    val screeningId = viewModel.screeningId
+    val movieTitle = viewModel.movieTitle
 
     val selectedSeats = remember { mutableStateListOf<String>() }
 
@@ -59,7 +67,17 @@ fun BookingSeatSelectScreen(
                 else selectedSeats.add(it)
                 viewModel.onSeatClicked(selectedSeats.toList())
             }
-        ) { }
+        ) {
+            navController.navigate(
+                Screen.Payment(
+                    theatreId,
+                    hallId,
+                    screeningId,
+                    seatMapToString(originalSeats),
+                    seatToString(selectedSeats),
+                    movieTitle)
+            )
+        }
     } else {
         LoadingSpinner()
     }
@@ -152,7 +170,7 @@ fun BookingSeatSelect(
             Modifier
                 .align(Alignment.BottomCenter)
                 .padding(start = 20.dp, end = 20.dp, bottom = 40.dp),
-            if(selectedSeats.isNotEmpty()) "Proceed" else "Select a seat",
+                if(selectedSeats.isNotEmpty()) "Proceed" else "Select a seat",
             selectedSeats.isNotEmpty(),
         ) { navToPurchase() }
     }

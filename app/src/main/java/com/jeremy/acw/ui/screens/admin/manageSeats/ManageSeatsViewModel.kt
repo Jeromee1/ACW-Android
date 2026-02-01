@@ -60,7 +60,7 @@ class ManageSeatsViewModel @Inject constructor(
                     theatreId,
                     hallId,
                     screeningId,
-                    _seats.value,
+                    seats.value,
                     tempSeats.value
                 )
                 _finish.emit(Unit)

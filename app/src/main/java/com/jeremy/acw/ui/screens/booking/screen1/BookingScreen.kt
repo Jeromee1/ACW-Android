@@ -98,7 +98,7 @@ fun BookingScreen(
                 },
                 screenings = screenings,
                 onScreeningClicked = { theatreId, hallId, screeningId ->
-                    navController.navigate(Screen.BookingSeats(theatreId, hallId, screeningId)
+                    navController.navigate(Screen.BookingSeats(theatreId, hallId, screeningId, movie!!.title)
                 ) }
             )
         } else {
@@ -133,13 +133,14 @@ fun Booking(
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState())
-            .padding(0.dp, 20.dp),
+            .padding(bottom = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BlackT),
+                .background(BlackT)
+                .padding(top = 20.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -238,7 +239,10 @@ fun Booking(
             }
         } else {
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(BlackWhiteTGI)
+                    .padding(40.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text("No screenings :(")
