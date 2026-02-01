@@ -250,8 +250,8 @@ fun BaseManage(
                 onDataChanged(data.copy(ageRating = it))
             }
         }
-        CustomButton("Select Release Date") { onDateClicked() }
+        CustomButton(label = "Select Release Date") { onDateClicked() }
         Spacer(Modifier.height(20.dp))
-        CustomButton(btnLabel) { submit() }
+        CustomButton(label = btnLabel) { submit() }
     }
 }

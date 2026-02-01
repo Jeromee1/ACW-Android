@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.data.repo.ScreeningRepo
+import com.jeremy.acw.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,17 +20,20 @@ import java.time.ZoneId
 class ScreeningsViewModel @Inject constructor(
     private val screeningsRepo: ScreeningRepo,
     savedStateHandle: SavedStateHandle
-) : BaseScreeningsViewModel() {
+) : BaseViewModel() {
     val theatreId = savedStateHandle.get<String>("theatreId")!!
     val hallId = savedStateHandle.get<String>("hallId")!!
 
     val hallName = savedStateHandle.get<String>("hallName")!!
     val hallSize = savedStateHandle.get<String>("hallSize")!!
 
-    val currentDate = LocalDate.now()
+    private val _screenings = MutableStateFlow<List<Screening>>(emptyList())
+    val screenings = _screenings.asStateFlow()
 
     private val _filteredScreenings = MutableStateFlow<List<Screening>>(emptyList())
     val filteredScreenings = _filteredScreenings.asStateFlow()
+
+    val currentDate = LocalDate.now()
 
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()

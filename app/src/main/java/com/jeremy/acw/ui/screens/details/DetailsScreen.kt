@@ -43,6 +43,7 @@ import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.core.SkeletonUI
 import com.jeremy.acw.ui.components.movie.DetailsInfo
+import com.jeremy.acw.ui.nav.Screen
 import com.jeremy.acw.ui.theme.BlackTG
 import com.jeremy.acw.ui.theme.Gray
 import com.jeremy.acw.ui.theme.KindaWhite
@@ -70,7 +71,7 @@ fun DetailsScreen(
             canExpand = canExpand,
             onExpandToggle = { isExpanded = !isExpanded },
             onOverflowDetected = { canExpand = true },
-            onBuyClicked = { }
+            onBuyClicked = { navController.navigate(Screen.Booking(it)) }
         )
     }
 }

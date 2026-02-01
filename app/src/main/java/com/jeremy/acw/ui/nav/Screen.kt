@@ -49,4 +49,24 @@ sealed class Screen {
     object AddMovie: Screen()
     @Serializable
     data class EditMovie(val movieId: String): Screen()
+    @Serializable
+    data class Booking(val  movieId: String): Screen()
+    @Serializable
+    data class BookingSeats(
+        val theatreId: String,
+        val hallId: String,
+        val screeningId: String,
+        val movieTitle: String
+    ): Screen()
+    @Serializable
+    data class Payment(
+        val theatreId: String,
+        val hallId: String,
+        val screeningId: String,
+        val fetchedSeats: String,
+        val selectedSeats: String,
+        val movieTitle: String
+    ): Screen()
+    @Serializable
+    object PaymentSuccess: Screen()
 }

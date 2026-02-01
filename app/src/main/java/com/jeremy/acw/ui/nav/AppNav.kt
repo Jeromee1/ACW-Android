@@ -33,6 +33,10 @@ import com.jeremy.acw.ui.screens.admin.overview.OverviewScreen
 import com.jeremy.acw.ui.screens.admin.screenings.ScreeningsAddScreen
 import com.jeremy.acw.ui.screens.admin.screenings.ScreeningsScreen
 import com.jeremy.acw.ui.screens.admin.theatres.TheatresScreen
+import com.jeremy.acw.ui.screens.booking.screen1.BookingScreen
+import com.jeremy.acw.ui.screens.booking.screen2.BookingSeatSelectScreen
+import com.jeremy.acw.ui.screens.booking.screen3.PaymentScreen
+import com.jeremy.acw.ui.screens.booking.screen4.PaymentSuccessScreen
 import com.jeremy.acw.ui.screens.details.DetailsScreen
 import com.jeremy.acw.ui.screens.home.HomeScreen
 import com.jeremy.acw.ui.screens.login.LoginScreen
@@ -59,7 +63,8 @@ fun AppNav() {
         dest == null -> false
         dest.hasRoute<Screen.Login>() ||
         dest.hasRoute<Screen.Register>() ||
-        dest.hasRoute<Screen.Home>() -> false
+        dest.hasRoute<Screen.Home>() ||
+        dest.hasRoute<Screen.PaymentSuccess>() -> false
         else -> true
     }
 
@@ -123,5 +128,9 @@ fun Nav(navController: NavHostController) {
         composable<Screen.OverviewMovies> { OverviewScreen(navController) }
         composable<Screen.AddMovie> { AddMovieScreen(navController) }
         composable<Screen.EditMovie> { EditMovieScreen(navController) }
+        composable<Screen.Booking> { BookingScreen(navController) }
+        composable<Screen.BookingSeats> { BookingSeatSelectScreen(navController) }
+        composable<Screen.Payment> { PaymentScreen(navController) }
+        composable<Screen.PaymentSuccess> { PaymentSuccessScreen(navController) }
     }
 }

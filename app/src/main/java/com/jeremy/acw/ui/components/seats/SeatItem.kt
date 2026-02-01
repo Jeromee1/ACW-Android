@@ -17,15 +17,24 @@ import androidx.compose.ui.unit.dp
 import com.jeremy.acw.data.enums.cinema.SeatStatus
 import com.jeremy.acw.ui.theme.KindaWhite
 import com.jeremy.acw.ui.theme.Secondary
+import com.jeremy.acw.ui.theme.SecondarySecondary
 import com.jeremy.acw.ui.theme.Success
 
 @Composable
 fun SeatItem(
+    isAdmin: Boolean,
     seatId: String,
     status: SeatStatus,
     onClick: (String) -> Unit
 ) {
+    val isClickable = if (isAdmin) {
+        status != SeatStatus.SOLD
+    } else {
+        status == SeatStatus.VACANT || status == SeatStatus.BOOKED
+    }
+
     val background = when (status) {
+        SeatStatus.SOLD -> SecondarySecondary
         SeatStatus.BOOKED -> Success
         else -> Secondary
     }
@@ -41,7 +50,7 @@ fun SeatItem(
             .size(30.dp)
             .clip(RoundedCornerShape(6.dp))
             .background(background)
-            .clickable(enabled = status != SeatStatus.BOOKED) {
+            .clickable(enabled = isClickable) {
                 onClick(seatId)
             },
         contentAlignment = Alignment.Center

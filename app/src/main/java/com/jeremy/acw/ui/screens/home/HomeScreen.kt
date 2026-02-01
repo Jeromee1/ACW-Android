@@ -63,8 +63,10 @@ fun HomeScreen(
             pullState,
             { viewModel.refresh() },
             selectedStatus,
-            { selectedStatus = it }
-        ) { navController.navigate(Screen.Details(it, user != null)) }
+            { selectedStatus = it },
+            { navController.navigate(Screen.Details(it, user != null)) },
+            { navController.navigate(Screen.Booking(it)) }
+        )
     }
 }
 
@@ -78,7 +80,8 @@ fun Home(
     onRefresh: () -> Unit,
     selectedStatus: String,
     onSelectStatus: (String) -> Unit,
-    navToDetails: (String) -> Unit
+    navToDetails: (String) -> Unit,
+    navToBooking: (String) -> Unit
 ) {
     PullToRefreshBox(
         isRefreshing = refreshing,
@@ -98,7 +101,7 @@ fun Home(
                     moviesShowing,
                     isLoggedIn,
                     { navToDetails(it) }
-                ) {  }
+                ) { navToBooking(it) }
             }
             Column(
                 modifier = Modifier

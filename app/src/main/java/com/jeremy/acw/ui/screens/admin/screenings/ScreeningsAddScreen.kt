@@ -1,6 +1,7 @@
 package com.jeremy.acw.ui.screens.admin.screenings
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,6 +42,7 @@ import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.inputs.CustomDialog
 import com.jeremy.acw.ui.components.inputs.CustomTextField
 import com.jeremy.acw.ui.components.movie.MovieItem
+import com.jeremy.acw.ui.nav.Screen
 import com.jeremy.acw.ui.theme.Secondary
 import java.time.LocalDate
 import java.util.Date
@@ -50,6 +53,8 @@ fun ScreeningsAddScreen(
     navController: NavController,
     viewModel: ScreeningsAddViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
     val isLoading = viewModel.isLoading.collectAsStateWithLifecycle().value
     val movies = viewModel.sortedMovies.collectAsStateWithLifecycle().value
     val hall = viewModel.hall.collectAsStateWithLifecycle().value
@@ -78,7 +83,13 @@ fun ScreeningsAddScreen(
 
     LaunchedEffect(Unit) {
         viewModel.finish.collect {
-            navController.popBackStack()
+            navController.popBackStack(Screen.Hall::class, inclusive = false)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.toast.collect {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
 

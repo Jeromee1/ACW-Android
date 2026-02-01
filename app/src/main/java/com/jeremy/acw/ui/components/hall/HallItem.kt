@@ -47,7 +47,8 @@ fun HallItem(
         )
         Text(
             hall.hallType,
-            fontSize = 14.sp,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.ExtraBold,
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }

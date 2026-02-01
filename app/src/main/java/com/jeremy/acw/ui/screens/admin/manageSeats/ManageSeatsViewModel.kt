@@ -1,6 +1,5 @@
 package com.jeremy.acw.ui.screens.admin.manageSeats
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.jeremy.acw.data.enums.cinema.SeatStatus
@@ -48,7 +47,6 @@ class ManageSeatsViewModel @Inject constructor(
                 _seats.value = data.seats.mapValues {
                     SeatStatus.fromString(it.value)
                 }
-                Log.d("debugging", seats.value.toString())
                 _tempSeats.value = seats.value
                 _isLoading.value = false
             }
@@ -62,7 +60,7 @@ class ManageSeatsViewModel @Inject constructor(
                     theatreId,
                     hallId,
                     screeningId,
-                    _seats.value,
+                    seats.value,
                     tempSeats.value
                 )
                 _finish.emit(Unit)
@@ -73,7 +71,7 @@ class ManageSeatsViewModel @Inject constructor(
     fun addToTemp(seat: String, option: String) {
         _tempSeats.update {
             when (option) {
-                "cl" -> it - seat
+                "cl" -> it + (seat to SeatStatus.VACANT)
                 "ma" -> it + (seat to SeatStatus.MAINTENANCE)
                 "un" -> it + (seat to SeatStatus.UNAVAILABLE)
                 else -> it

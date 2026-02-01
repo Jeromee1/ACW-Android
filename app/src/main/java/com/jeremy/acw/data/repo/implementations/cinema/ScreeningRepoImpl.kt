@@ -92,4 +92,14 @@ class ScreeningRepoImpl @Inject constructor(
             transaction.update(docRef, updates)
         }.await()
     }
+
+    override suspend fun fetchMovieScreening(movieId: String): List<Screening> {
+        return firestore
+            .collectionGroup("screenings")
+            .whereEqualTo("movieId", movieId)
+            .get()
+            .await()
+            .documents
+            .mapNotNull { it.toObject(Screening::class.java) }
+    }
 }

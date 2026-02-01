@@ -3,6 +3,7 @@ package com.jeremy.acw.core.utils
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.firebase.Timestamp
+import com.jeremy.acw.data.enums.cinema.SeatStatus
 import com.jeremy.acw.data.model.forms.MovieForm
 import com.jeremy.acw.data.model.requests.UpdateMovieReq
 import java.text.SimpleDateFormat
@@ -61,6 +62,13 @@ fun timestampToTime(timestamp: Timestamp): LocalTime {
         .toLocalTime()
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun timestampToDate(timestamp: Timestamp): LocalDate {
+    return timestamp.toDate().toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+}
+
 fun Date.toTimeString(): String {
     return SimpleDateFormat("HH:mm", Locale.getDefault()).format(this)
 }
@@ -71,6 +79,32 @@ fun dateFormatter(): DateTimeFormatter {
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
+fun dateFormatter2(): DateTimeFormatter {
+    return DateTimeFormatter.ofPattern("EEE d MMM")
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
 fun timeFormatter(): DateTimeFormatter {
     return DateTimeFormatter.ofPattern("HH:mm")
+}
+
+fun seatToString(seats: List<String>): String {
+    return seats.joinToString(separator = ",")
+}
+
+fun seatMapToString(seats: Map<String, SeatStatus>): String {
+    return seats.map { "${it.key}=${it.value}" }.joinToString(separator = ",")
+}
+
+fun seatToList(seats: String): List<String> {
+    if (seats.isBlank()) return emptyList()
+    return seats.split(",")
+}
+
+fun seatToMap(seats: String): Map<String, SeatStatus> {
+    if (seats.isBlank()) return emptyMap()
+    return seats.split(",").associate {
+        val (key, value) = it.split("=")
+        key to SeatStatus.valueOf(value)
+    }
 }
