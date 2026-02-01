@@ -43,6 +43,7 @@ interface ScreeningRepo {
         fetched: Map<String, SeatStatus>,
         seats: Map<String, SeatStatus>
     )
+    suspend fun fetchMovieScreening(movieId: String): List<Screening>
 }
 
 interface BookingRepo {

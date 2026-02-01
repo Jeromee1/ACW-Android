@@ -1,8 +1,11 @@
 package com.jeremy.acw.ui.screens.admin.screenings
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.Timestamp
+import com.jeremy.acw.core.utils.timestampToDate
 import com.jeremy.acw.data.enums.cinema.HallType
 import com.jeremy.acw.data.model.cinema.Hall
 import com.jeremy.acw.data.model.cinema.Movie
@@ -10,6 +13,7 @@ import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.data.repo.HallRepo
 import com.jeremy.acw.data.repo.MovieRepo
 import com.jeremy.acw.data.repo.ScreeningRepo
+import com.jeremy.acw.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
 import kotlinx.coroutines.async
@@ -17,17 +21,18 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.util.Date
 
+@RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class ScreeningsAddViewModel @Inject constructor(
     private val movieRepo: MovieRepo,
     private val hallRepo: HallRepo,
     private val screeningRepo: ScreeningRepo,
     savedStateHandle: SavedStateHandle
-) : BaseScreeningsViewModel() {
+) : BaseViewModel() {
     val theatreId = savedStateHandle.get<String>("theatreId")!!
     val hallId = savedStateHandle.get<String>("hallId")!!
     val date = savedStateHandle.get<String>("date")!!
@@ -92,26 +97,36 @@ class ScreeningsAddViewModel @Inject constructor(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addScreening(
         movieId: String,
         startingTime: Timestamp
     ) {
         viewModelScope.launch {
+            val intendedDay = LocalDate.parse(date)
+            val startDay = timestampToDate(startingTime)
+
+            if (startDay.isAfter(intendedDay)) {
+                _toast.emit("Cannot add: The schedule for this day is already full.")
+                return@launch
+            }
+
             val movie = fetchMovieById(movieId)
+            val endTime = Timestamp(Date(startingTime.toDate().time + (movie.duration * 1000L)))
 
             val newScreening = Screening(
                 movieId = movieId,
                 movieTitle = movie.title,
                 theatreId = theatreId,
                 hallId = hallId,
+                hallType = hall.value!!.hallType,
                 startTime = startingTime,
-                endTime = Timestamp(Date(startingTime.toDate().time + (movie.duration * 1000L))),
-                price = if(hall.value?.hallType == HallType.STANDARD.value) 20.0 else 45.0
+                endTime = endTime,
+                price = if(hall.value?.hallType == HallType.TwoD.value) 20.0 else 45.0
             )
 
             safeApiCall {
                 screeningRepo.createScreening(theatreId, hallId, newScreening)
-                _screenings.update { it + newScreening }
                 _finish.emit(Unit)
             }
         }

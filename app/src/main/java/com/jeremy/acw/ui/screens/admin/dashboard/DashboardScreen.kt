@@ -35,7 +35,7 @@ fun Dashboard(
     navToTheatres: () -> Unit
 ) {
     AdminContentWrapper("DASHBOARD") {
-        CustomButton("MOVIES") { navToMovies() }
-        CustomButton("THEATRES") { navToTheatres() }
+        CustomButton(label = "MOVIES") { navToMovies() }
+        CustomButton(label = "THEATRES") { navToTheatres() }
     }
 }

@@ -3,6 +3,7 @@ package com.jeremy.acw.data.enums.cinema
 enum class SeatStatus {
     VACANT,
     BOOKED,
+    SOLD,
     MAINTENANCE,
     UNAVAILABLE;
 

@@ -1,6 +1,7 @@
 package com.jeremy.acw.data.model.cinema
 
 import com.google.firebase.Timestamp
+import com.jeremy.acw.data.enums.cinema.HallType
 
 data class Screening(
     val id: String = "",
@@ -8,6 +9,7 @@ data class Screening(
     val movieTitle: String = "",
     val theatreId: String = "",
     val hallId: String = "",
+    val hallType: String = HallType.TwoD.value,
     val startTime: Timestamp? = null,
     val endTime: Timestamp? = null,
     val price: Double = 0.0,
@@ -23,6 +25,7 @@ data class Screening(
             "movieTitle" to movieTitle,
             "theatreId" to theatreId,
             "hallId" to hallId,
+            "hallType" to hallType,
             "startTime" to startTime,
             "endTime" to endTime,
             "price" to price,

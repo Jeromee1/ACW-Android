@@ -54,7 +54,7 @@ class TheatreRepoImpl @Inject constructor(
                 theatreId = theatreRef.id,
                 hallName = letter.toString(),
                 seatLayout = HallSize.MEDIUM.value,
-                hallType = HallType.STANDARD.value
+                hallType = HallType.TwoD.value
             )
             batch.set(hallRef, hall.toMap())
         }

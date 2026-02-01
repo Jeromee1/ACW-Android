@@ -69,7 +69,7 @@ fun Theatres(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomTextField(FieldData("Theatre", theatre) { onTheatreChanged(it) })
-            CustomButton("Add") { onAddClicked() }
+            CustomButton(label = "Add") { onAddClicked() }
         }
         HorizontalDivider(
             thickness = 1.dp,

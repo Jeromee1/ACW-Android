@@ -61,6 +61,13 @@ fun timestampToTime(timestamp: Timestamp): LocalTime {
         .toLocalTime()
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun timestampToDate(timestamp: Timestamp): LocalDate {
+    return timestamp.toDate().toInstant()
+        .atZone(ZoneId.systemDefault())
+        .toLocalDate()
+}
+
 fun Date.toTimeString(): String {
     return SimpleDateFormat("HH:mm", Locale.getDefault()).format(this)
 }
@@ -68,6 +75,11 @@ fun Date.toTimeString(): String {
 @RequiresApi(Build.VERSION_CODES.O)
 fun dateFormatter(): DateTimeFormatter {
     return DateTimeFormatter.ofPattern("dd MMMM yyyy")
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun dateFormatter2(): DateTimeFormatter {
+    return DateTimeFormatter.ofPattern("EEE d MMM")
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

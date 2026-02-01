@@ -8,7 +8,7 @@ data class Hall(
     val theatreId: String = "",
     val hallName: String = "",
     val seatLayout: String = SeatLayout.SMALL.value,
-    val hallType: String = HallType.STANDARD.value
+    val hallType: String = HallType.TwoD.value
 ) {
     fun toMap(): Map<String, Any> = mutableMapOf(
         "id" to id,

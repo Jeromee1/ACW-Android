@@ -97,6 +97,7 @@ fun ManageSeats(
                 .fillMaxHeight(0.6f)
         ) {
             CustomSeatLayout(
+                true,
                 size,
                 seatMap
             ) { onSeatClicked(it) }

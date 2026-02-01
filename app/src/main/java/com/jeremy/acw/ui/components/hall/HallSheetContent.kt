@@ -75,7 +75,7 @@ fun HallSheetContent(
                     itemLabel = { it }
                 ) { selectedType = it }
             }
-            CustomButton("Apply Changes") { onSubmit(selectedSize, selectedType) }
+            CustomButton(label = "Apply Changes") { onSubmit(selectedSize, selectedType) }
         }
     }
 }
