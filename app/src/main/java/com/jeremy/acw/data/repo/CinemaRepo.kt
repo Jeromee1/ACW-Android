@@ -47,8 +47,7 @@ interface ScreeningRepo {
 }
 
 interface BookingRepo {
-    suspend fun fetchAllBookings(): List<Booking>
-    suspend fun fetchBooking(id: String): Booking
+    suspend fun fetchUsersBookings(uid: String): List<Booking>
     suspend fun createBooking(booking: Booking)
     suspend fun deleteBooking(id: String)
 }

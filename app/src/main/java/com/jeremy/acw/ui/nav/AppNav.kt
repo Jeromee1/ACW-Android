@@ -42,6 +42,7 @@ import com.jeremy.acw.ui.screens.home.HomeScreen
 import com.jeremy.acw.ui.screens.login.LoginScreen
 import com.jeremy.acw.ui.screens.profile.ProfileScreen
 import com.jeremy.acw.ui.screens.register.RegisterScreen
+import com.jeremy.acw.ui.screens.viewBookings.ViewBookingsScreen
 import com.jeremy.acw.ui.theme.Background
 import com.jeremy.acw.ui.theme.KindaWhite
 
@@ -91,7 +92,7 @@ fun AppNav() {
             menuToggle,
             { menuToggle = false },
             { navController.navigate(Screen.Profile) },
-            { /*navController.navigate(Screen.Bookings)*/ },
+            { navController.navigate(Screen.ViewBookings) },
             { navController.navigate(Screen.Login) },
             { /*navController.navigate(Screen.About)*/ },
             { navController.navigate(Screen.Dashboard) }
@@ -132,5 +133,6 @@ fun Nav(navController: NavHostController) {
         composable<Screen.BookingSeats> { BookingSeatSelectScreen(navController) }
         composable<Screen.Payment> { PaymentScreen(navController) }
         composable<Screen.PaymentSuccess> { PaymentSuccessScreen(navController) }
+        composable<Screen.ViewBookings> { ViewBookingsScreen() }
     }
 }

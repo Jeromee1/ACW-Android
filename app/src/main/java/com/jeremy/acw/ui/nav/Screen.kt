@@ -69,4 +69,6 @@ sealed class Screen {
     ): Screen()
     @Serializable
     object PaymentSuccess: Screen()
+    @Serializable
+    object ViewBookings: Screen()
 }
