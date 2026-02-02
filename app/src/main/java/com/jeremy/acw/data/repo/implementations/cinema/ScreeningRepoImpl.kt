@@ -1,5 +1,6 @@
 package com.jeremy.acw.data.repo.implementations.cinema
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.jeremy.acw.data.enums.cinema.SeatStatus
 import com.jeremy.acw.data.model.cinema.Screening
@@ -94,9 +95,12 @@ class ScreeningRepoImpl @Inject constructor(
     }
 
     override suspend fun fetchMovieScreening(movieId: String): List<Screening> {
+        val now = Timestamp.now()
+
         return firestore
             .collectionGroup("screenings")
             .whereEqualTo("movieId", movieId)
+            .whereGreaterThan("startTime", now)
             .get()
             .await()
             .documents
