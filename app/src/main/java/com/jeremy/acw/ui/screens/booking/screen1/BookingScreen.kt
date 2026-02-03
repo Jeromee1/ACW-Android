@@ -177,7 +177,7 @@ fun Booking(
                     Text(
                         movie.ageRating,
                         fontSize = 10.sp,
-                        modifier = Modifier.padding(2.dp)
+                        modifier = Modifier.padding(8.dp, 0.dp)
                     )
                 }
             }

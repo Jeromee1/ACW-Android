@@ -48,7 +48,7 @@ fun SplashScreen(
             painter = painterResource(R.drawable.acw_logo),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxSize(0.5f)
+                .fillMaxSize(0.45f)
                 .align(Alignment.Center)
         )
         Spacer(modifier = Modifier.height(24.dp))
