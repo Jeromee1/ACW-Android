@@ -71,4 +71,6 @@ sealed class Screen {
     object PaymentSuccess: Screen()
     @Serializable
     object ViewBookings: Screen()
+    @Serializable
+    data class Search(val isLoggedIn: Boolean): Screen()
 }

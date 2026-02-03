@@ -2,10 +2,12 @@ package com.jeremy.acw
 
 import android.content.Context
 import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import com.jeremy.acw.ui.nav.AppNav
 import com.jeremy.acw.ui.theme.ACWTheme
@@ -20,6 +22,7 @@ class MainActivity : ComponentActivity() {
         super.attachBaseContext(context)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,6 +34,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ComposeApp() {
     AppNav()

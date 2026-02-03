@@ -10,9 +10,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshState
@@ -65,7 +71,8 @@ fun HomeScreen(
             selectedStatus,
             { selectedStatus = it },
             { navController.navigate(Screen.Details(it, user != null)) },
-            { navController.navigate(Screen.Booking(it)) }
+            { navController.navigate(Screen.Booking(it)) },
+            { navController.navigate(Screen.Search(user != null)) }
         )
     }
 }
@@ -81,7 +88,8 @@ fun Home(
     selectedStatus: String,
     onSelectStatus: (String) -> Unit,
     navToDetails: (String) -> Unit,
-    navToBooking: (String) -> Unit
+    navToBooking: (String) -> Unit,
+    navToSearch: () -> Unit
 ) {
     PullToRefreshBox(
         isRefreshing = refreshing,
@@ -113,18 +121,32 @@ fun Home(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(28.dp, 0.dp),
-                    horizontalArrangement = Arrangement.spacedBy(18.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    MovieStatus.entries.forEach {
-                        Text(
-                            it.value,
-                            fontSize = if(selectedStatus == it.value) 20.sp else 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if(selectedStatus == it.value) KindaWhite else Gray,
-                            modifier = Modifier.clickable { onSelectStatus(it.value) }
-                        )
+                    LazyRow(
+                        modifier = Modifier,
+                        horizontalArrangement = Arrangement.spacedBy(18.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        items(MovieStatus.entries) {
+                            Text(
+                                it.value,
+                                fontSize = if(selectedStatus == it.value) 20.sp else 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = if(selectedStatus == it.value) KindaWhite else Gray,
+                                modifier = Modifier.clickable { onSelectStatus(it.value) }
+                            )
+                        }
                     }
+                    Icon(
+                        Icons.Filled.Search,
+                        null,
+                        tint = KindaWhite,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clickable { navToSearch() }
+                    )
                 }
                 HorizontalDivider(thickness = 1.dp, color = KindaWhite)
                 val movies = if(selectedStatus == MovieStatus.NOW_SHOWING.value) moviesShowing else moviesSoon
