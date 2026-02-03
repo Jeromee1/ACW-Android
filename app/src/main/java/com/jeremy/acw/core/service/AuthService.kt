@@ -74,7 +74,7 @@ class AuthService @Inject constructor(
             try {
                 firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             } catch (e: FirebaseAuthUserCollisionException) {
-                throw IllegalStateException("Email in-use")
+                throw IllegalStateException("Email in-use", e)
             } catch (e: Exception) {
                 throw e
             }
@@ -91,5 +91,7 @@ class AuthService @Inject constructor(
 
     fun logout() {
         firebaseAuth.signOut()
+        _user.value = null
+        _currentUser.value = null
     }
 }

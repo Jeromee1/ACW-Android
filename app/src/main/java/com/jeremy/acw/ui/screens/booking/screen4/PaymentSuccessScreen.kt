@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
 import com.jeremy.acw.ui.nav.Screen
@@ -17,7 +18,7 @@ fun PaymentSuccessScreen(
     navController: NavController
 ) {
     LaunchedEffect(Unit) {
-        delay(5000)
+        delay(4000)
         navController.navigate(Screen.Home) {
             popUpTo(Screen.PaymentSuccess) { inclusive = true }
         }
@@ -29,7 +30,8 @@ fun PaymentSuccessScreen(
     ) {
         Text(
             "Thank you for your purchase!\nRedirecting you soon...",
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
         )
     }
 }

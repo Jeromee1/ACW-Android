@@ -57,7 +57,8 @@ fun MovieBannerItem(
     movies: List<Movie>,
     isLoggedIn: Boolean,
     onInfoClicked: (String) -> Unit,
-    onBuyClicked: (String) -> Unit
+    onBuyClicked: (String) -> Unit,
+    navToLogin: () -> Unit
 ) {
     var index by remember { mutableIntStateOf(0) }
     var prevIndex by remember { mutableIntStateOf(0) }
@@ -153,7 +154,7 @@ fun MovieBannerItem(
                             }
                         }
                         Button(
-                            onClick = { if (isLoggedIn) onBuyClicked(movie.id) },
+                            onClick = { if (isLoggedIn) onBuyClicked(movie.id) else navToLogin() },
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(if (isLoggedIn) Primary else Secondary),
                         ) { Text("BUY NOW") }

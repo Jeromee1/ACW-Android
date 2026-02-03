@@ -172,13 +172,12 @@ fun Booking(
                 )
                 Spacer(Modifier.width(10.dp))
                 Box(
-                    modifier = Modifier
-                        .border(1.dp, Secondary, RoundedCornerShape(4.dp))
-                        .padding(2.dp)
+                    modifier = Modifier.border(1.dp, Secondary, RoundedCornerShape(4.dp))
                 ) {
                     Text(
                         movie.ageRating,
-                        fontSize = 10.sp
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(2.dp)
                     )
                 }
             }

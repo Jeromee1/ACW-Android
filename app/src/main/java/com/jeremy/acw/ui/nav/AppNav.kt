@@ -43,6 +43,7 @@ import com.jeremy.acw.ui.screens.login.LoginScreen
 import com.jeremy.acw.ui.screens.profile.ProfileScreen
 import com.jeremy.acw.ui.screens.register.RegisterScreen
 import com.jeremy.acw.ui.screens.search.SearchScreen
+import com.jeremy.acw.ui.screens.splash.SplashScreen
 import com.jeremy.acw.ui.screens.viewBookings.ViewBookingsScreen
 import com.jeremy.acw.ui.theme.Background
 import com.jeremy.acw.ui.theme.KindaWhite
@@ -106,13 +107,13 @@ fun AppNav() {
 fun Nav(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Home,
+        startDestination = Screen.Splash,
         enterTransition = { slideInHorizontally { it } },
         exitTransition = { slideOutHorizontally { -it } },
         popEnterTransition = { slideInHorizontally { -it } },
         popExitTransition = { slideOutHorizontally { it } }
     ) {
-//        composable<Screen.Splash> { SplashScreen(navController) }
+        composable<Screen.Splash> { SplashScreen(navController) }
         composable<Screen.Login> { LoginScreen(navController) }
         composable<Screen.Register> { RegisterScreen(navController) }
         composable<Screen.Home> { HomeScreen(navController) }
