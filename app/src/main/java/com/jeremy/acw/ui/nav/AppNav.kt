@@ -24,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.jeremy.acw.ui.components.core.CustomMenu
 import com.jeremy.acw.ui.components.core.CustomTopBar
+import com.jeremy.acw.ui.screens.aboutUs.AboutUsScreen
 import com.jeremy.acw.ui.screens.admin.dashboard.DashboardScreen
 import com.jeremy.acw.ui.screens.admin.halls.HallScreen
 import com.jeremy.acw.ui.screens.admin.manageMovies.add.AddMovieScreen
@@ -96,7 +97,7 @@ fun AppNav() {
             { navController.navigate(Screen.Profile) },
             { navController.navigate(Screen.ViewBookings) },
             { navController.navigate(Screen.Login) },
-            { /*navController.navigate(Screen.About)*/ },
+            { navController.navigate(Screen.AboutUs) },
             { navController.navigate(Screen.Dashboard) }
         )
     }
@@ -137,5 +138,6 @@ fun Nav(navController: NavHostController) {
         composable<Screen.PaymentSuccess> { PaymentSuccessScreen(navController) }
         composable<Screen.ViewBookings> { ViewBookingsScreen() }
         composable<Screen.Search> { SearchScreen(navController) }
+        composable<Screen.AboutUs> { AboutUsScreen() }
     }
 }
