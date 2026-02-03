@@ -71,7 +71,8 @@ fun DetailsScreen(
             canExpand = canExpand,
             onExpandToggle = { isExpanded = !isExpanded },
             onOverflowDetected = { canExpand = true },
-            onBuyClicked = { navController.navigate(Screen.Booking(it)) }
+            onBuyClicked = { navController.navigate(Screen.Booking(it)) },
+            navToLogin = { navController.navigate(Screen.Login) }
         )
     }
 }
@@ -84,7 +85,8 @@ fun Details(
     canExpand: Boolean,
     onExpandToggle: () -> Unit,
     onOverflowDetected: () -> Unit,
-    onBuyClicked: (String) -> Unit
+    onBuyClicked: (String) -> Unit,
+    navToLogin: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -123,8 +125,8 @@ fun Details(
                     color = Gray
                 )
                 Button(
-                    onClick = { if (isLoggedIn) onBuyClicked(movie.id) },
-                    shape = RoundedCornerShape(20.dp),
+                    onClick = { if (isLoggedIn) onBuyClicked(movie.id) else navToLogin() },
+                    shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (isLoggedIn) Primary else Secondary
                     ),
