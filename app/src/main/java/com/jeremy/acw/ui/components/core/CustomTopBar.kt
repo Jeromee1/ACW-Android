@@ -47,7 +47,7 @@ fun CustomTopBar(
             }
             .padding(
                 20.dp,
-                12.dp,
+                16.dp,
                 20.dp,
                 0.dp
             )

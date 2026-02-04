@@ -34,6 +34,7 @@ class AddMovieViewModel @Inject constructor(
             )
             safeApiCall {
                 movieRepo.createMovie(movie)
+                emitToast("Success")
                 _finish.emit(Unit)
             }
         }

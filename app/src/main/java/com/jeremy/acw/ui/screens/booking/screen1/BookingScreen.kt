@@ -1,6 +1,7 @@
 package com.jeremy.acw.ui.screens.booking.screen1
 
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.compose.SubcomposeAsyncImage
 import com.jeremy.acw.core.utils.longToStringTimeConverter
+import com.jeremy.acw.core.utils.naIfBlank
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.data.model.cinema.Screening
 import com.jeremy.acw.ui.components.booking.BookingDateItem
@@ -63,6 +66,7 @@ fun BookingScreen(
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val movie by viewModel.movie.collectAsStateWithLifecycle()
     val screenings by viewModel.sortedScreenings.collectAsStateWithLifecycle()
+    val originalScreenings by viewModel.screenings.collectAsStateWithLifecycle()
     val dates by viewModel.screeningDates.collectAsStateWithLifecycle()
     val types by viewModel.screeningTypes.collectAsStateWithLifecycle()
 
@@ -76,11 +80,18 @@ fun BookingScreen(
         }
     }
 
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.toast.collect {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     if (!isLoading) {
         if (movie != null) {
             Booking(
                 movie = movie!!,
-                hasScreenings = screenings.isNotEmpty(),
+                hasScreenings = originalScreenings.isNotEmpty(),
                 dates = dates,
                 selectedDate = selectedDate,
                 onDateSelected = { date ->
@@ -167,7 +178,7 @@ fun Booking(
             ) {
                 Text(
                     "${longToStringTimeConverter(movie.duration)} " +
-                            "• ${movie.genre.firstOrNull()}",
+                            "• ${naIfBlank(movie.genre.firstOrNull())}",
                     fontSize = 12.sp
                 )
                 Spacer(Modifier.width(10.dp))

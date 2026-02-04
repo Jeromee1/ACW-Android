@@ -1,6 +1,6 @@
 package com.jeremy.acw.ui.components.theatre
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,11 +22,15 @@ import com.jeremy.acw.ui.theme.Secondary
 fun TheatreItem(
     theatre: Theatre,
     onClicked: () -> Unit,
+    onLongPressed: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClicked() },
+            .combinedClickable(
+                onClick = { onClicked() },
+                onLongClick = { onLongPressed() }
+            ),
         colors = CardDefaults.cardColors(containerColor = Secondary),
         shape = RoundedCornerShape(8.dp)
     ) {

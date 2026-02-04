@@ -1,5 +1,6 @@
 package com.jeremy.acw.ui.screens.details
 
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,6 +41,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil3.compose.SubcomposeAsyncImage
 import com.jeremy.acw.core.utils.longToStringTimeConverter
+import com.jeremy.acw.core.utils.naIfBlank
 import com.jeremy.acw.core.utils.timestampToDMY
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.ui.components.core.LoadingSpinner
@@ -60,6 +64,13 @@ fun DetailsScreen(
     val movie by viewModel.movie.collectAsStateWithLifecycle()
     var isExpanded by remember { mutableStateOf(false) }
     var canExpand by remember { mutableStateOf(false) }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.toast.collect {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     if (isLoading) {
         LoadingSpinner()
@@ -120,7 +131,7 @@ fun Details(
                     textAlign = TextAlign.Center,
                 )
                 Text(
-                    text = "${movie.genre.firstOrNull() ?: ""} • ${longToStringTimeConverter(movie.duration)}",
+                    text = "${naIfBlank(movie.genre.firstOrNull())} • ${longToStringTimeConverter(movie.duration)}",
                     fontSize = 18.sp,
                     color = Gray
                 )
@@ -183,17 +194,17 @@ fun Details(
                     modifier = Modifier.fillMaxWidth(0.5f),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    DetailsInfo("Release Date", timestampToDMY(movie.releaseDate!!))
-                    DetailsInfo("Genre", movie.genre.joinToString(" / "))
-                    DetailsInfo("Subtitles", movie.subtitles.joinToString(" / "))
+                    DetailsInfo("Release Date", naIfBlank(movie.releaseDate?.let { timestampToDMY(it) }))
+                    DetailsInfo("Genre", naIfBlank(movie.genre.takeIf { it.isNotEmpty() }?.joinToString(" / ")))
+                    DetailsInfo("Subtitles", naIfBlank(movie.subtitles.takeIf { it.isNotEmpty() }?.joinToString(" / ")))
                 }
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    DetailsInfo("Running Time", longToStringTimeConverter(movie.duration))
-                    DetailsInfo("Spoken Language", movie.language.joinToString(" / "))
-                    DetailsInfo("Classifications", movie.ageRating)
+                    DetailsInfo("Running Time", naIfBlank(movie.duration.let { longToStringTimeConverter(it) }))
+                    DetailsInfo("Spoken Language", naIfBlank(movie.language.takeIf { it.isNotEmpty() }?.joinToString(" / ")))
+                    DetailsInfo("Classifications", naIfBlank(movie.ageRating))
                 }
             }
         }

@@ -2,7 +2,9 @@ package com.jeremy.acw.ui.screens.admin.overview
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -32,12 +34,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.jeremy.acw.data.enums.cinema.MovieStatus
 import com.jeremy.acw.data.model.cinema.Movie
 import com.jeremy.acw.data.model.ui.FieldData
 import com.jeremy.acw.ui.components.AdminContentWrapper
 import com.jeremy.acw.ui.components.core.CustomBottomSheet
 import com.jeremy.acw.ui.components.core.LoadingSpinner
 import com.jeremy.acw.ui.components.inputs.CustomDialog
+import com.jeremy.acw.ui.components.inputs.CustomDropdown
 import com.jeremy.acw.ui.components.inputs.CustomTextField
 import com.jeremy.acw.ui.components.movie.MovieItem
 import com.jeremy.acw.ui.nav.Screen
@@ -60,6 +64,12 @@ fun OverviewScreen(
     var showDialog by remember { mutableStateOf(false) }
     var search by remember { mutableStateOf("") }
 
+    fun changeStatus(status: String) {
+        if(selectedMovie == null) return
+        scope.launch { sheetState.hide() }
+        viewModel.changeStatus(selectedMovie!!.id, status)
+    }
+
     Overview(
         isLoading,
         movies,
@@ -69,11 +79,16 @@ fun OverviewScreen(
         { selectedMovie = it; scope.launch { sheetState.show() }},
         { navController.navigate(Screen.AddMovie) }
     )
-    selectedMovie?.let {
+    if(selectedMovie != null) {
         CustomBottomSheet(
             sheetState,
             { scope.launch { sheetState.hide() } }
         ) {
+            CustomDropdown(
+                MovieStatus.entries.map { it.value },
+                selectedMovie!!.status,
+                itemLabel = { it },
+            ) { changeStatus(it) }
             Button(
                 onClick = { showDialog = true; scope.launch { sheetState.hide() } },
                 colors = ButtonDefaults.buttonColors(
@@ -81,7 +96,6 @@ fun OverviewScreen(
                 ),
                 shape = RoundedCornerShape(8.dp),
                 modifier = Modifier
-                    .padding(20.dp)
                     .fillMaxWidth()
                     .padding(8.dp)
             ) { Text("Delete") }
@@ -121,18 +135,19 @@ fun Overview(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                       items(movies) { movie ->
-                           Box(
-                               modifier = Modifier.weight(1f),
-                               contentAlignment = Alignment.Center
-                           ) {
-                               MovieItem(
-                                   movie,
-                                   { onClicked(it) },
-                                   { onLongPressed(movie) }
-                               )
-                           }
-                       }
+                        items(movies) { movie ->
+                            Box(
+                                modifier = Modifier.weight(1f),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                MovieItem(
+                                    movie,
+                                    { onClicked(it) },
+                                    { onLongPressed(movie) }
+                                )
+                            }
+                        }
+                        item { Spacer(Modifier.height(20.dp)) }
                     }
                 } else {
                     Box(
