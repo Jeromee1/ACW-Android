@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
@@ -51,7 +52,7 @@ fun CustomMenu(
     ) {
         var showBG by remember { mutableStateOf(false) }
         val offsetX by animateDpAsState(
-            targetValue = if (isOpen) 0.dp else (-300).dp,
+            targetValue = if (isOpen) 0.dp else (-500).dp,
             animationSpec = tween(250),
         )
         val opacity by animateFloatAsState(
@@ -88,6 +89,7 @@ fun CustomMenu(
                     modifier = Modifier.padding(16.dp, 24.dp, 16.dp, 16.dp)
                 )
                 HorizontalDivider(thickness = 1.dp, color = KindaWhite)
+                Spacer(Modifier.height(8.dp))
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {

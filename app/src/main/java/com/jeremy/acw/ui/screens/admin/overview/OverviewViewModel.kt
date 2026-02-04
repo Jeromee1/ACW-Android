@@ -48,6 +48,15 @@ class OverviewViewModel @Inject constructor(
         }
     }
 
+    fun changeStatus(movieId: String, status: String) {
+        viewModelScope.launch {
+            safeApiCall {
+                movieRepo.updateMovieStatus(movieId, status)
+                fetchMovies()
+            }
+        }
+    }
+
     fun search(search: String) {
         _sortedMovies.value = movies.value.filter {
             it.id.startsWith(search, ignoreCase = true)

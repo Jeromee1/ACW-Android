@@ -37,7 +37,7 @@ open class BaseViewModel: ViewModel() {
 
     fun validateRegisterFields(form: RegisterForm): Boolean {
         form.apply {
-            if(fullname.length < 7) return false
+            if(!validateName(fullname)) return false
             if(!validateEmailFormat(email)) return false
             if(!validatePassword(password, passwordConfirm)) return false
         }
@@ -47,6 +47,14 @@ open class BaseViewModel: ViewModel() {
     fun validateEmailFormat(email: String): Boolean {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emitToast("Invalid email format")
+            return false
+        }
+        return true
+    }
+
+    fun validateName(name: String): Boolean {
+        if(name.length < 5) {
+            emitToast("Name must be at least 6 characters")
             return false
         }
         return true
@@ -89,7 +97,7 @@ open class BaseViewModel: ViewModel() {
         return true
     }
 
-    private fun emitToast(msg: String) {
+    protected fun emitToast(msg: String) {
         viewModelScope.launch {
             _toast.emit(msg)
         }

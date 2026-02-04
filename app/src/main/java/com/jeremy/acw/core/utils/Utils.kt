@@ -108,3 +108,7 @@ fun seatToMap(seats: String): Map<String, SeatStatus> {
         key to SeatStatus.valueOf(value)
     }
 }
+
+fun naIfBlank(value: String?): String {
+    return if (value.isNullOrBlank()) "N/A" else value
+}

@@ -44,4 +44,8 @@ class MovieRepoImpl @Inject constructor(
     override suspend fun deleteMovie(id: String) {
         dbRef.document(id).delete().await()
     }
+
+    override suspend fun updateMovieStatus(id: String, status: String) {
+        dbRef.document(id).update("status", status).await()
+    }
 }

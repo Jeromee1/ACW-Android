@@ -14,6 +14,7 @@ interface MovieRepo {
     suspend fun createMovie(movie: Movie)
     suspend fun updateMovie(id: String, form: MovieForm)
     suspend fun deleteMovie(id: String)
+    suspend fun updateMovieStatus(id: String, status: String)
 }
 
 interface TheatreRepo {

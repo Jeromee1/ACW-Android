@@ -1,5 +1,6 @@
 package com.jeremy.acw.ui.screens.admin.theatres
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.jeremy.acw.data.model.cinema.Theatre
 import com.jeremy.acw.data.repo.TheatreRepo
@@ -20,8 +21,14 @@ class TheatresViewModel @Inject constructor(
     private val _sortedTheatres = MutableStateFlow<List<Theatre>>(emptyList())
     val sortedTheatres = _sortedTheatres.asStateFlow()
 
+    private val _screeningsCount = MutableStateFlow(0)
+    val screeningsCount = _screeningsCount.asStateFlow()
+
     private val _isLoading = MutableStateFlow(true)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _screeningsFetching = MutableStateFlow(true)
+    val screeningsFetching = _screeningsFetching.asStateFlow()
 
     init {
         fetchTheatres()
@@ -39,6 +46,18 @@ class TheatresViewModel @Inject constructor(
         }
     }
 
+    fun fetchTheatreScreening(theatreId: String) {
+        viewModelScope.launch {
+            _screeningsFetching.value = true
+            safeApiCall {
+                val data = theatreRepo.fetchScreeningsFromTheatre(theatreId)
+                _screeningsCount.value = data
+                Log.d("debugging", data.toString())
+                _screeningsFetching.value = false
+            }
+        }
+    }
+
     fun addTheatre(theatre: String) {
         viewModelScope.launch {
             safeApiCall {
@@ -47,15 +66,6 @@ class TheatresViewModel @Inject constructor(
                     theatreRepo.createTheatre(theatre)
                     fetchTheatres()
                 }
-            }
-        }
-    }
-
-    fun deleteTheatre(id: String) {
-        viewModelScope.launch {
-            safeApiCall {
-                theatreRepo.deleteTheatre(id)
-                fetchTheatres()
             }
         }
     }

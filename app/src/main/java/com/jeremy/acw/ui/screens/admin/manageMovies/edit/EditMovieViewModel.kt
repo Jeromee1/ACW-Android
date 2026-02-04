@@ -53,6 +53,7 @@ class EditMovieViewModel @Inject constructor(
         viewModelScope.launch {
             safeApiCall {
                 movieRepo.updateMovie(movieId, form)
+                emitToast("Success")
                 _finish.emit(Unit)
             }
         }

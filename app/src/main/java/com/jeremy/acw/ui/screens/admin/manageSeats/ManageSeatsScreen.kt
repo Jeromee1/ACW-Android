@@ -61,6 +61,12 @@ fun ManageSeatsScreen(
         }
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.toast.collect {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     ManageSeats(
         hallSize,
         originalSeats.value,
